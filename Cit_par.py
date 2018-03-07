@@ -7,7 +7,7 @@ from numpy import*
 
 hp0    =   1 #change   	      # pressure altitude in the stationary flight condition [m]
 V0     =    1  #change       # true airspeed in the stationary flight condition [m/sec]
-alpha0 =     1 #change       # angle of attack in the stationary flight condition [rad]
+alpha0 =     5 #change       # angle of attack in the stationary flight condition [rad]
 th0    =      1 #change      # pitch angle in the stationary flight condition [rad]
 
 # Aircraft mass
