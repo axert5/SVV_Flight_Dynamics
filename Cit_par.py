@@ -11,7 +11,7 @@ alpha0 = 5*pi/180 #change          # angle of attack in the stationary flight co
 th0    = 1*pi/180 #change          # pitch angle in the stationary flight condition [rad]
 
 # Aircraft mass
-m      = 5000 #change          # mass [kg]
+m      = 60500/9.80665 #change          # mass [kg]
 
 # aerodynamic properties
 e      = 0.8 #change        # Oswald factor [ ]
