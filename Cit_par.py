@@ -1,4 +1,5 @@
 # Citation 550 - Linear simulation
+#America first
 
 # xcg = 0.25 * c
 from numpy import*
