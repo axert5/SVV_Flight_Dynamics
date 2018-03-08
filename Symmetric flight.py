@@ -13,7 +13,7 @@ from scipy.integrate import simps
 
 #symmetric case
 
-C1_symmetric= matrix([[-2*muc*c/(V0**2) ,0, 0 ,0],[0,(CZadot-2*muc)*c/V0,0,0],[0,0,-c/V0,0],[0,Cma*c/V0,0,-2*muc*KY2**2*c**2/V0**2]])
+C1_symmetric= matrix([[-2*muc*c/(V0**2) ,0, 0 ,0],[0,(CZadot-2*muc)*c/V0,0,0],[0,0,-c/V0,0],[0,Cma*c/V0,0,-2*muc*KY2*c**2/V0**2]])
 C2_symmetric=matrix([[CXu/V0,CXa,CZ0,CXq*c/V0],[CZu/V0,CZa,-CX0,(CZq+2*muc)*c/V0],[0,0,0,c/V0],[Cmu/V0,Cma,0,Cmq*c/V0]])
 C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
 
@@ -24,6 +24,9 @@ D_symmetric=zeros((4,1))
 
 sys_symmetric=ss(A_symmetric,B_symmetric,C_symmetric,D_symmetric)
 
+
+print ('Eigenvalues of A_symmetric:',linalg.eig(A_symmetric)[0] )
+print ('Eigenvectors of A_symmetric:',linalg.eig(A_symmetric)[1] )
 #---input to state space-------------------------------------------------------
 
 
