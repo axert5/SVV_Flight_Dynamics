@@ -8,6 +8,8 @@ Created on Wed Mar  7 11:58:57 2018
 
 from numpy import *
 from Cit_par import *
+from control.matlab import*
+import matplotlib.pyplot as plt
 
 C1_asymmetric = matrix([[(CYb-2*mub)*b/V0,0,0,0],
                          [0,-b/(2*V0),0,0], 
@@ -31,10 +33,46 @@ C3_asymmetric = matrix([[-CYda,-CYdr],
 #print (C2_asymmetric)
 #print (C3_asymmetric)
 
-A = linalg.inv(-C1_asymmetric)*C2_asymmetric
+A_asymmetric = linalg.inv(-C1_asymmetric)*C2_asymmetric
     
-print 'A matrix is: ',A
+#print 'A matrix is: ',A_asymmetric
 
-B = linalg.inv(-C1_asymmetric)*C3_asymmetric
+B_asymmetric = linalg.inv(-C1_asymmetric)*C3_asymmetric
               
-print 'B matrix is: ',B
+#print 'B matrix is: ',B_asymmetric
+
+C_asymmetric = identity(4)
+D_asymmetric = zeros((4,2))
+
+sys_asymmetric=ss(A_asymmetric,B_asymmetric,C_asymmetric,D_asymmetric)
+
+#---input to state space-------------------------------------------------------
+
+
+t=arange(0,10,0.01)
+y=impulse(sys_asymmetric,t,input=1)
+
+
+#----------plotting-----------------------------------------------------------
+plt.figure(1)
+
+plt.subplot(411)
+plt.title('Velocity u (m/s)')
+plt.plot(t,y[0][:,0],color='c',label='u')
+
+plt.subplot(412)
+plt.title('Angle of Attack alpha (degs)')
+plt.plot(t,y[0][:,1]*180/pi, color='r', label='alpha')
+
+plt.subplot(413)
+plt.title('Fligth Path Angle theta (degs)')
+plt.plot(t,y[0][:,2]*180/pi,color='b',label='theta')
+
+plt.subplot(414)
+plt.title('Pitch Rate q (m/s)')
+plt.plot(t,y[0][:,3],color='g',label='q')
+plt.plot()
+
+
+
+
