@@ -11,10 +11,10 @@ from Cit_par import *
 from control.matlab import*
 import matplotlib.pyplot as plt
 
-C1_asymmetric = matrix([[(CYb-2*mub)*b/V0,0,0,0],
+C1_asymmetric = matrix([[(CYbdot-2*mub)*b/V0,0,0,0],
                          [0,-b/(2*V0),0,0], 
-                         [0,0,(-4*mub*KX2*2*V0**2)/b**2,(4*mub*KXZ*2*V0**2)/b**2],
-                         [Cnbdot*b/(V0),0,(4*mub*KXZ*2*V0**2)/b**2,(-4*mub*KZ2*2*V0**2)/b**2]
+                         [0,0,(-4*mub*KX2**2*b**2)/(2*V0**2),(4*mub*KXZ*b**2)/(2*V0**2)],
+                         [Cnbdot*b/(V0),0,(4*mub*KXZ*b**2)/(2*V0**2),(-4*mub*KZ2**2*b**2)/(2*V0**2)]
                          ])
 
 C2_asymmetric = matrix([[CYb, CL, CYp*b/2*V0,(CYr-4*mub)*b/(2*V0)],
@@ -23,10 +23,10 @@ C2_asymmetric = matrix([[CYb, CL, CYp*b/2*V0,(CYr-4*mub)*b/(2*V0)],
                          [Cnb,0,Cnp*b/(2*V0),Cnr*b/(2*V0)]
                          ])
 
-C3_asymmetric = matrix([[-CYda,-CYdr],
+C3_asymmetric = matrix([[CYda,CYdr],
                         [0,0],
-                        [-Clda,-Cldr],
-                        [-Cnda,-Cndr]
+                        [Clda,Cldr],
+                        [Cnda,Cndr]
                         ])
 
 #print (C1_asymmetric)
@@ -49,9 +49,9 @@ sys_asymmetric=ss(A_asymmetric,B_asymmetric,C_asymmetric,D_asymmetric)
 #---input to state space-------------------------------------------------------
 
 
-t=arange(0,10,0.01)
-y=impulse(sys_asymmetric,t,input=1)
+t=linspace(0,10,100)
 
+y=lsim(sys_asymmetric,u,t,input=0)
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
