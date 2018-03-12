@@ -10,7 +10,7 @@ from control.matlab import*
 import matplotlib.pyplot as plt
 from scipy.integrate import simps
 #State space system
-
+#testmaria
 #symmetric case
 
 C1_symmetric= matrix([[-2*muc*c/(V0**2) ,0, 0 ,0],[0,(CZadot-2*muc)*c/V0,0,0],[0,0,-c/V0,0],[0,Cma*c/V0,0,-2*muc*KY2*c**2/V0**2]])
