@@ -12,6 +12,10 @@ from numpy  import*
 import matplotlib.pyplot as bplt
 from scipy import interpolate
 
+#inputs:
+#0 Total current fuel mass of the aircraft
+#1 cg shift. 0= no shift// 1= shift
+
 #outputs:
 #0 total aircraft mass in [kg]
 #1 current x_cg from forward end of MAC in [m]
