@@ -84,17 +84,17 @@ def cg(Fuel,shift):
                       10556.84,10843.87,11131.00,11418.20,11705.50,11993.31,12281.18,12569.04,
                       12856.86,13144.73,13432.48,13720.56,14008.46,14320.34])
     
-    
+#total ramp fuel was 4100 lbs   
     min = 100
     u = 0
     for i in fuelmass:
-        x=i-mass_t
+        x=i-Fuel
         if x<0 and abs(x)< min:
             u = i
             min = x
-    position= where( fuelmass == u)[0][0]
+    position= where(fuelmass == u)[0][0]
     
-    M_fuel=(mass_t-fuelmass[position])/(fuelmass[position+1]-fuelmass[position])*(fuelmoment[position+1]-fuelmoment[position])+fuelmoment[position]        
+    M_fuel=(Fuel-fuelmass[position])/(fuelmass[position+1]-fuelmass[position])*(fuelmoment[position+1]-fuelmoment[position])+fuelmoment[position]        
     
     Current_mass=Fuel+ZFM
     Current_mass_kg=Current_mass/kg2lbs
