@@ -10,9 +10,9 @@ from control.matlab import*
 import matplotlib.pyplot as plt
 
 #State space system
-
+#testmaria
 #symmetric case
-
+print ('asdasdasd')
 C1_symmetric= matrix([[-2*muc*c/(V0**2) ,0, 0 ,0],[0,(CZadot-2*muc)*c/V0,0,0],[0,0,-c/V0,0],[0,Cma*c/V0,0,-2*muc*KY2*c**2/V0**2]])
 C2_symmetric=matrix([[CXu/V0,CXa,CZ0,CXq*c/V0],[CZu/V0,CZa,-CX0,(CZq+2*muc)*c/V0],[0,0,0,c/V0],[Cmu/V0,Cma,0,Cmq*c/V0]])
 C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])

@@ -65,7 +65,7 @@ plt.plot(t,y[0][:,2],color='b',label='theta')
 plt.subplot(414)
 plt.title('Yaw Rate r (m/s)')
 plt.plot(t,y[0][:,3],color='g',label='q')
-plt.plot()
+plt.show()
 
 
 
