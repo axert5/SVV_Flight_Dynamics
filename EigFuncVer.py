@@ -7,7 +7,7 @@ Made by Andrei Badea
 
 import numpy as np
 
-def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma):
+def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma , V , MAC):
     """This function outputs the  approximate system eigenvalues for short period oscillation.
     
     Inputs:
@@ -17,6 +17,8 @@ def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma):
         Cmadot  - dCm / d(adot * MAC / V) ; Change in Cm with respect to change in adot * MAC / V
         Cmq     - dCm / d(q * MAC / V); Change in Cm with respect to q * MAC / V
         Cma     - dCm / da ; Change in Cm wrt angle of attack
+        V       - Reference velocity
+        MAC     - mean aerodynamic chord
                 
     Outputs:
         Eig1    - First eigenvalue of the system 
@@ -32,10 +34,10 @@ def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma):
     
     
     
-    return Eig1 , Eig2
+    return Eig1 * V / c , Eig2 * V / c
 
 
-def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0):
+def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V , c):
     """This function outputs the approximate system eigenvalues for phugoid motion.
     
     Inputs:
@@ -48,6 +50,8 @@ def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0):
         CXa     - dCX / da ; the change in the force in X direction with respect to angle of attack
         CZu     - dCZ / du ; the change in the force in Z direction with respect to the speed in "X" direction
         CZ0     - CZ in steady flight
+        V       - Reference velocity
+        MAC     - mean aerodynamic chord
     
     Outputs:
         Eig1    - First eigenvalue of the system
@@ -62,9 +66,9 @@ def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0):
     Eig1 = -B + j * np.sqrt(4*A*C - B**2) / 2 / A
     Eig2 = -B - j * np.sqrt(4*A*C - B**2) / 2 / A
     
-    return Eig1, Eig2
+    return Eig1 * V / c, Eig2 * V / c
 
-def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb):
+def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb , V , b):
     """This function outputs the approximate system eigenvalues for the Dutch roll motion.
     
     Inputs:
@@ -73,6 +77,8 @@ def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb):
         Cnr     - dCn / d (rb/2V); Cn is the yawing moment coefficient N / (0.5 * ro * V^2 * S * b)
         CYb     - dCY / dbeta ; change in the force coefficient in Y direction wrt to change in the angle of sideslip (beta)
         Cnb     - dCn / dbeta ; Change in the yawing moment coeffienct wrt the change in the angle of sideslip (beta)
+        V       - Reference velocity
+        MAC     - mean aerodynamic chord
     
     Outputs:
         Eig1    - First eigenvalue of the system
@@ -86,4 +92,4 @@ def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb):
     Eig1 = -B + j * np.sqrt(4*A*C - B**2) / 2 / A
     Eig2 = -B - j * np.sqrt(4*A*C - B**2) / 2 / A 
     
-    return Eig1, Eig2
+    return Eig1 * V / b, Eig2 * V  / b
