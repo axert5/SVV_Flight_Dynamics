@@ -8,12 +8,13 @@ Created on Mon Mar 12 14:30:31 2018
 
 from numpy import *
 import matplotlib.pyplot as plt
+from WeightBalance import cg
 
 S = 30.00                                                                      #m^2
 lbs_to_kg = 0.45359237
-g = 9.80665                                                                    #gravity constant
+g = 9.81                                                                       #gravity constant
 fuel_start = 4100*lbs_to_kg*g                                                  #fuel at start in N
-weight_plane_empty = 3655*g                                                    #Weight empty aircraft in N
+weight_plane_empty = cg(0,0)[0]*g                                                    #Weight empty aircraft in N
 
 weights_passengers_notfloat = [82, 92, 60, 60, 77, 69, 67, 95, 84]             #in kg
 
@@ -24,7 +25,7 @@ for i in range(len(weights_passengers_notfloat)):
     
 #print('weights passengers', weights_passengers)
 
-fuel_used_lbs = [386, 416, 442, 471, 502, 544]                                 #fuel used in lbs
+fuel_used_lbs = [385, 416, 442, 471, 502, 544]                                 #fuel used in lbs
 
 fuel_used = []                                                                 #fuel used in kg
 
@@ -44,7 +45,7 @@ for i in range(len(fuel_used)):
 
 lift_stationary = []                                                           #Lift at start of stationary test i
 for i in range(len(fuel_stationarystart)):
-    lift_stationary.append(sum(weights_passengers) + fuel_stationarystart[i] + weight_plane_empty)
+    lift_stationary.append(fuel_stationarystart[i] + weight_plane_empty)
     
 #print('lift value', lift_stationary)
 
@@ -62,7 +63,7 @@ temp_0 = 273.15                                                                #
 total_temp_stationary = [7.3, 2.5, 1.0, -0.2, -1.0, -2.5]                      #Celsius of temperatures during test measured
 
 for i in range(len(total_temp_stationary)):
-    total_temp_stationary[i] = array(total_temp_stationary[i] + temp_0)               #Temperature in Kelvin per  test
+    total_temp_stationary[i] = array(total_temp_stationary[i] + temp_0)        #Temperature in Kelvin per  test
     
 #print(total_temp_stationary)
     
@@ -84,7 +85,7 @@ print(rho)
 C_L = []
 
 for i in range(len(lift_stationary)):
-    C_L_formula = lift_stationary[i]/(0.5*rho[i]*V[i]**2*S)                       #C_L formula
+    C_L_formula = lift_stationary[i]/(0.5*rho[i]*V[i]**2*S)                    #C_L formula
     C_L.append(C_L_formula)                                                    #C_L values for stationary flight data
 
 
@@ -100,7 +101,7 @@ thrust_total = [7236.03, 5761.35, 5096.5, 4314.81, 3470.3, 4273.97]
 C_D = []
 
 for i in range(len(thrust_total)):
-    C_D_formula = thrust_total[i]/(0.5*rho[i]*V[i]**2*S)                          #C_D formula
+    C_D_formula = thrust_total[i]/(0.5*rho[i]*V[i]**2*S)                       #C_D formula
     C_D.append(C_D_formula)                                                    #C_D values for stationary flight data
 
 print(C_D)

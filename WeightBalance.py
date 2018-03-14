@@ -45,7 +45,7 @@ def cg(Fuel,shift):
     kg2lbs=1/0.453592
     in2m=0.0254
     
-    BEW=9165.0
+    BEW=9165.0              #lbs
     xcg_BEW=292.18
     M_BEW=2677847.5 #hardcoded as above values are rounded. Most exact data used
     

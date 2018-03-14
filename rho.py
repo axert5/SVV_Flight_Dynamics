@@ -10,7 +10,7 @@ from numpy import*
 p0=101325
 T0=288.15
 lamda=-0.0065
-g=9.80665
+g=9.81
 R=287.05
 gamma=1.4
 rho0=1.225
