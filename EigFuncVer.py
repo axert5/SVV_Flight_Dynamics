@@ -94,7 +94,7 @@ def dutch_roll_d(mub , KZ2 , Cnr , CYb , Cnb , V0 , b):
     
     return Eig1 * V0 / b, Eig2 * V0  / b
 
-def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma):
+def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma , V0 , c):
     """This function outputs the  approximate dimensionless system eigenValues for short period oscillation.
     
     Inputs:
@@ -116,13 +116,16 @@ def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma):
     
     Eig1 = -B + j * np.sqrt(4*A*C - B**2) / 2 / A
     Eig2 = -B - j * np.sqrt(4*A*C - B**2) / 2 / A
+
     
+    P1 = 2*np.pi / ((V0 / c * np.sqrt(C/A)) * np.sqrt(1 - (-B / (2 * np.sqrt(A * C)))))
     
+    P2 = 2 * np.pi / (np.sqrt(4*A*C - B**2) / 2 / A) * c / V0
     
-    return Eig1  , Eig2 
+    return Eig1  , Eig2 , P1 , P2
 
 
-def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0):
+def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V0 , c):
     """This function outputs the approximate dimensionless  system eigenValues for phugoid motion.
     
     Inputs:
@@ -150,9 +153,13 @@ def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0):
     Eig1 = -B + j * np.sqrt(4*A*C - B**2) / 2 / A
     Eig2 = -B - j * np.sqrt(4*A*C - B**2) / 2 / A
     
-    return Eig1 , Eig2 
+    P = 2*np.pi / ((V0 / c * np.sqrt(C/A)) * np.sqrt(1 - (-B / (2 * np.sqrt(A * C)))))
+    
 
-def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb):
+    
+    return Eig1 , Eig2 , P
+
+def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb, V0 , c):
     """This function outputs the approximate dimensionless system eigenValues for the Dutch roll motion.
     
     Inputs:
