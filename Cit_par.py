@@ -6,8 +6,8 @@ from EigFuncVer import *
 
 # Stationary flight condition
 
-hp0    = 10000 #change   	      # pressure altitude in the stationary flight condition [m]
-V0     = 100 #change               # true airspeed in the stationary flight condition [m/sec]
+hp0    = 7000 * 0.3048 #change   	      # pressure altitude in the stationary flight condition [m]
+V0     = 178* 0.5144444 #change               # true airspeed in the stationary flight condition [m/sec]
 alpha0 = 5*pi/180 #change          # angle of attack in the stationary flight condition [rad]
 th0    = 3*pi/180 #change          # pitch angle in the stationary flight condition [rad]
 
@@ -45,6 +45,10 @@ Lambda = -0.0065         # temperature gradient in ISA [K/m]
 Temp0  = 288.15          # temperature at sea level in ISA [K]
 R      = 287.05          # specific gas constant [m^2/sec^2K]
 g      = 9.81            # [m/sec^2] (gravity constant)
+
+p0=101325
+gamma=1.4
+cp=gamma*R/(gamma-1)
 
 # air density [kg/m^3]  
 rho    = rho0 * power( ((1+(Lambda * hp0 / Temp0))), (-((g / (Lambda*R)) + 1)))   
@@ -112,10 +116,16 @@ Cnda   =  -0.0120
 Cndr   =  -0.0939
 
 
-print("Eigenvalues for short priod are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma , V0 , c))
+print("Dimension-less for short period are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma, V0 , c ))
 print()
-print("Eigenvalues for phugoid are:" , phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V0 , c))
+print("Dimension-less for phugoid are:" , phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0 ,V0 , c))
 print()
-print("Eigenvalues for Dutch roll are:" , dutch_roll(mub , KZ2 , Cnr , CYb , Cnb , V0 , b))
+print("Dimension-less for Dutch roll are:" , dutch_roll(mub , KZ2 , Cnr , CYb , Cnb, V0 , b))
+print ("-----------------------------------------------")
+print("Dimension-having eigenvalues for short period are:" , short_period_d(muc , KY2 , CZa , Cmadot, Cmq, Cma , V0 , c))
+print()
+print("Dimension-having eigenvalues for phugoid are:" , phugoid_d(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V0 , c))
+print()
+print("Dimension-having eigenvalues for Dutch roll are:" , dutch_roll_d(mub , KZ2 , Cnr , CYb , Cnb , V0 , b))
 
 
