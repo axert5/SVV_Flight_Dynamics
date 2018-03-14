@@ -34,10 +34,10 @@ def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma , V , MAC):
     
     
     
-    return Eig1 * V / c , Eig2 * V / c
+    return Eig1 * V / MAC , Eig2 * V / MAC
 
 
-def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V , c):
+def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V , MAC):
     """This function outputs the approximate system eigenvalues for phugoid motion.
     
     Inputs:
@@ -66,7 +66,7 @@ def phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V , c):
     Eig1 = -B + j * np.sqrt(4*A*C - B**2) / 2 / A
     Eig2 = -B - j * np.sqrt(4*A*C - B**2) / 2 / A
     
-    return Eig1 * V / c, Eig2 * V / c
+    return Eig1 * V / MAC, Eig2 * V / MAC
 
 def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb , V , b):
     """This function outputs the approximate system eigenvalues for the Dutch roll motion.
@@ -78,7 +78,7 @@ def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb , V , b):
         CYb     - dCY / dbeta ; change in the force coefficient in Y direction wrt to change in the angle of sideslip (beta)
         Cnb     - dCn / dbeta ; Change in the yawing moment coeffienct wrt the change in the angle of sideslip (beta)
         V       - Reference velocity
-        MAC     - mean aerodynamic chord
+        b       - Wing span
     
     Outputs:
         Eig1    - First eigenvalue of the system
