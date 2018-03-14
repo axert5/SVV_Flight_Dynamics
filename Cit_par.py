@@ -2,6 +2,7 @@
 #America First
 # xcg = 0.25 * c
 from numpy import*
+from EigFuncVer import *
 
 # Stationary flight condition
 
@@ -111,5 +112,10 @@ Cnda   =  -0.0120
 Cndr   =  -0.0939
 
 
+print("Eigenvalues for short priod are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma , V0 , c))
+print()
+print("Eigenvalues for phugoid are:" , phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0, V0 , c))
+print()
+print("Eigenvalues for Dutch roll are:" , dutch_roll(mub , KZ2 , Cnr , CYb , Cnb , V0 , b))
 
 
