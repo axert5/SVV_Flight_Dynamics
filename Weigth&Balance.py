@@ -120,5 +120,7 @@ def cg(Fuel,shift):
 
     return Current_mass_kg,Current_xcg_LEMAC,Current_moment_LEMAC,Current_moment_kgm,Current_mass,Current_moment,Current_xcg_datum
 
-
+hp=577
+from rho import rho
+print(rho(hp))
         
