@@ -10,6 +10,7 @@ from Cit_par import *
 
 
 
+
 def rho00(hp):
 
     p=(1+Lambda*hp/Temp0)**(-g/(Lambda*R))*p0
