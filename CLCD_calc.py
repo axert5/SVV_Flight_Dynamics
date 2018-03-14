@@ -15,6 +15,12 @@ lbs_to_kg = 0.45359237
 g = 9.81                                                                       #gravity constant
 fuel_start = 4100*lbs_to_kg*g                                                  #fuel at start in N
 weight_plane_empty = cg(0,0)[0]*g                                                    #Weight empty aircraft in N
+R = 287.05
+gamma = 1.4
+p0 = 101325
+T0 = 288.15
+lamda = -0.0065
+rho0 = 1.225
 
 weights_passengers_notfloat = [82, 92, 60, 60, 77, 69, 67, 95, 84]             #in kg
 
@@ -50,14 +56,16 @@ for i in range(len(fuel_stationarystart)):
 #print('lift value', lift_stationary)
 
 
-V_kts = [248, 221, 191, 161, 141, 117]                                         #kts
+V_kts = [249, 221, 191, 161, 141, 117]                                         #kts
 kts_to_ms = 0.51444444444                                                      #kts to m/s
 V = []
 
 for i in range(len(V_kts)):
-    V.append(V_kts[i]*kts_to_ms)
+    V.append((V_kts[i]*kts_to_ms))
+V=array(V)
+Vc = V-2*.51444444444
 
-#print (V)
+print ('Vc is',Vc)
     
 temp_0 = 273.15                                                                #standard temperature Kelvin at sea level
 total_temp_stationary = [7.3, 2.5, 1.0, -0.2, -1.0, -2.5]                      #Celsius of temperatures during test measured
@@ -78,14 +86,44 @@ rho = []
 for i in range(len(hp)):
     rho2 = rho1(hp[i],Vc[i],Ttot[i])
     rho.append(rho2)
-print(rho)
+print('rho is',rho)
+
+###Pressure calculation
+
+p = []
+
+for i in range(len(hp)):
+    p1 = p0*(1 + (lamda*hp[i])/T0)**(-g/(R*lamda))
+    p.append(p1)
+
+print ('p is', p)
+    
+#Mach number calculation
+
+M = []
+
+for i in range(len(p)):
+    M1 = 1+((gamma-1)/(2*gamma))*(rho0/p0)*Vc[i]**2
+    M2 = M1**(gamma/(gamma-1))
+    M3 = M2-1
+    M4 = 1+(p0/p[i])*M3
+    M5 = M4**((gamma-1)/gamma)
+    M6 = M5-1
+    M7 = (2/(gamma-1))*M6
+    M8 = sqrt(M7)
+    M.append(M8)
+            
+print ('M is', M)
+
+#### ZET DE GOEIE T ERIN -->> Ttotal / (1+gamma-1/2*M^2)
+
 
 ### C_L Calculation
     
 C_L = []
 
 for i in range(len(lift_stationary)):
-    C_L_formula = lift_stationary[i]/(0.5*rho[i]*V[i]**2*S)                    #C_L formula
+    C_L_formula = lift_stationary[i]/(0.5*rho[i]*Vc[i]**2*S)                    #C_L formula
     C_L.append(C_L_formula)                                                    #C_L values for stationary flight data
 
 
@@ -101,15 +139,15 @@ thrust_total = [7236.03, 5761.35, 5096.5, 4314.81, 3470.3, 4273.97]
 C_D = []
 
 for i in range(len(thrust_total)):
-    C_D_formula = thrust_total[i]/(0.5*rho[i]*V[i]**2*S)                       #C_D formula
+    C_D_formula = thrust_total[i]/(0.5*rho[i]*Vc[i]**2*S)                      #C_D formula
     C_D.append(C_D_formula)                                                    #C_D values for stationary flight data
 
-print(C_D)
+print('CD is', C_D)
 
 ### Alpha values 
 
 alpha_rad = array([0.02792526803, 0.04188790205, 0.06108652382, 0.09424777961, 0.1291543646, 0.193731547])
-
+'''
 plt.plot(C_D, C_L, 'ro')
 plt.xlabel('C_D')
 plt.ylabel('C_L')
@@ -124,7 +162,7 @@ plt.plot(alpha_rad, C_D, 'g')
 plt.xlabel('alpha')
 plt.ylabel('C_D')
 plt.show()
-
+'''
     
     
   
