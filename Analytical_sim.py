@@ -34,24 +34,25 @@ Im = np.array([[np.imag(short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma)[0])] ,
 
 #Short period data
 P_sp       = 2*pi*c/(V0 * Im[0,0])                         #Period
-T_half_sp  = np.log(0.5) * c / (V0 * Re[0,0])              #Half amplitude time
-omega0_sp  = np.sqrt(Re[0,0]**2 + Im[0,0]**2) * V0 / c     #Angular frequency of oscillation
-damp_sp    = -Re[0,0] / (np.sqrt(Re[0,0]**2 + Im[0,0]**2)) #Damping coefficient
+omega0_sp  = V0 / c * np.sqrt(short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma)[4] / short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma)[2])     #Angular frequency of oscillation
+damp_sp    = short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma)[3] / (2 * np.sqrt(short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma)[2] * short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma)[4]))  #Damping coefficient
 omegan_sp  = omega0_sp * np.sqrt(1-damp_sp**2)             #Eigenfrequency 
+T_half_sp  = -np.log(0.5)  / omega0_sp / damp_sp                         #Half amplitude time
 
 #Phugoid data
 P_ph       = 2*pi*c/(V0 * Im[1,0])                         #Period
-T_half_ph  = np.log(0.5) * c / (V0 * Re[1,0])              #Half amplitude time
-omega0_ph  = np.sqrt(Re[1,0]**2 + Im[1,0]**2) * V0 / c     #Angular frequency of oscillation
-damp_ph    = -Re[1,0] / (np.sqrt(Re[1,0]**2 + Im[1,0]**2)) #Damping coefficient
+omega0_ph  = V0 / c * np.sqrt(phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[4] / phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[2])     #Angular frequency of oscillation
+damp_ph    = phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[3] / (2 * np.sqrt(phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[2] * phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[4]))  #Damping coefficient
 omegan_ph  = omega0_ph * np.sqrt(1-damp_ph**2)             #Eigenfrequency 
+T_half_ph  = -np.log(0.5) /omega0_ph / damp_ph            #Half amplitude time
 
 #Dutch roll data
 P_dr       = 2*pi*b/(V0 * Im[2,0])                         #Period
-T_half_dr  = np.log(0.5) * b / (V0 * Re[2,0])              #Half amplitude time
-omega0_dr  = np.sqrt(Re[2,0]**2 + Im[2,0]**2) * V0 / b     #Angular frequency of oscillation
-damp_dr    = -Re[2,0] / (np.sqrt(Re[2,0]**2 + Im[2,0]**2)) #Damping coefficient
+omega0_dr  = V0 / b * np.sqrt(dutch_roll(mub , KZ2 , Cnr , CYb , Cnb)[4] / dutch_roll(mub , KZ2 , Cnr , CYb , Cnb)[2])     #Angular frequency of oscillation
+damp_dr    = dutch_roll(mub , KZ2 , Cnr , CYb , Cnb)[3] / (2 * np.sqrt(dutch_roll(mub , KZ2 , Cnr , CYb , Cnb)[2] * dutch_roll(mub , KZ2 , Cnr , CYb , Cnb)[4]))  #Damping coefficient
 omegan_dr  = omega0_dr * np.sqrt(1-damp_dr**2)             #Eigenfrequency
+T_half_dr  = -np.log(0.5)/ omega0_dr / damp_dr             #Half amplitude time
+
 
 
 print ("------------Short period-------------")
