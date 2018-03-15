@@ -11,6 +11,10 @@ from Cit_par import *
 from control.matlab import*
 import matplotlib.pyplot as plt
 
+#Asymmetrical case
+
+#---------------state space systems -------------------------------------------
+#dimension having
 C1_asymmetric = matrix([[(CYbdot-2*mub)*b/V0,0,0,0],
                          [0,-b/(2*V0),0,0], 
                          [0,0,(-4*mub*KX2*b**2)/(2*V0**2),(4*mub*KXZ*b**2)/(2*V0**2)],
@@ -37,34 +41,109 @@ D_asymmetric = zeros((4,2))
 
 sys_asymmetric=ss(A_asymmetric,B_asymmetric,C_asymmetric,D_asymmetric)
 
+# dimensionless
+C1_asym_dimless = matrix([[(CYbdot-2*mub)*b/V0,0,0,0],
+                         [0,-b/(2*V0),0,0], 
+                         [0,0,(-4*mub*KX2*b)/V0,(4*mub*KXZ*b)/V0],
+                         [Cnbdot*b/(V0),0,(4*mub*KXZ*b)/V0,(-4*mub*KZ2*b)/V0]
+                         ])
 
-print ('Eigenvalues of A_asymmetric:',linalg.eig(A_asymmetric)[0] )
-print ('Eigenvectors of A_asymmetric:',linalg.eig(A_asymmetric)[1] )
-#---input to state space-------------------------------------------------------
+C2_asym_dimless = matrix([[CYb, CL, CYp,(CYr-4*mub)],
+                         [0,0,1,0],
+                         [Clb,0,Clp,Clr],
+                         [Cnb,0,Cnp,Cnr]
+                         ])
+
+C3_asym_dimless = matrix([[CYda,CYdr],
+                        [0,0],
+                        [Clda,Cldr],
+                        [Cnda,Cndr]
+                        ])
 
 
+A_asym_dimless = linalg.inv(-C1_asym_dimless)*C2_asym_dimless
+B_asym_dimless = linalg.inv(-C1_asym_dimless)*C3_asym_dimless
+C_asym_dimless=identity(4)
+C_asym_hybrid = matrix([[1,0,0,0],[0,1,0,0],[0,0,2*V0/b,0],[0,0,0,2*V0/b]])
+D_asym_dimless = zeros((4,2))
+
+#true dimensionless output
+sys_asym_dimless=ss(A_asym_dimless,B_asym_dimless,C_asym_dimless,D_asym_dimless)
+
+#dimensionless computation but dimension having output
+sys_hybrid=ss(A_asym_dimless, B_asym_dimless,C_asym_hybrid,D_asym_dimless)
+
+#-----Matrix analysis--------------------------------------------------------
+"""
+#---dimension having system----------------------------------------------------
+eigenvalues_A_asymmetric=linalg.eig(A_asymmetric)[0]
+print ('Eigenvalues of A_asymmetric:',eigenvalues_A_asymmetric)
+
+T12_A_asymmetric=log(0.5)*c/V0/real(array(linalg.eig(A_asymmetric)[0]))
+print ('T1/2 of A_asymmetric:',T12_A_asymmetric)
+
+Period_A_asymmetric=2*pi*c/V0/imag(array(linalg.eig(A_asymmetric)[0]))
+print ('Period of A_asymmetric:',Period_A_asymmetric)
+
+#--------dimensionless system--------------------------------------------------
+eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)[0]
+print ('Eigenvalues of A_asym_dimless:',eigenvalues_A_asym_dimless )
+
+T12_A_asym_dimless=log(0.5)*c/V0/real(array(linalg.eig(A_asym_dimless)[0]))
+print ('T1/2 of A_asym_dimless:',T12_A_asym_dimless)
+
+Period_A_asym_dimless=2*pi*c/V0/imag(array(linalg.eig(A_asym_dimless)[0]))
+print ('Period of A_asym_dimless:',Period_A_asym_dimless)"""
+
+
+#---state space computation------------------------------------------------------
+#-------------------------------------------------------------------------------
+
+#-------inputs-------------
 t=arange(0,10,0.01)
 
-y=impulse(sys_asymmetric,t,input=0)
+uda=[1]*len(t)              #input vector for aileron deflection
+udr=[2]*len(t)              #input vector for rudder deflection
+u=vstack((uda,udr)).T       #input vector to model
+
+#--which model is selected----------------------------------------------------
+
+sys=sys_asymmetric          #standard dimension having
+#sys=sys_hybrid              #dimless computation, dim having outputs
+#sys=sys_asym_dimless        #dimless outputs
+
+
+#--what Input is selected------------------------------------------------------
+
+y=lsim(sys,u,t)              #Using input vector
+#y=impulse(sys,t,input=0)            #Impulse input: 0=aileron // 1= rudder
+#y=step(sys,t,input=0)               #Step input: 0=aileron // 1= rudder
+
+#------------------graph analysis---------------------------------------------
+
+period=abs((y[1][where(y[0][:,0] == y[0][:,0].max())]-y[1][where(y[0][:,0] == y[0][:,0].min())])*2)
+
+print (period)
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 
 plt.subplot(411)
 plt.title('Sideslip Angle beta (degs)')
-plt.plot(t,y[0][:,0]*180/pi,color='c',label='u')
+plt.plot(t,y[0][:,0]*180/pi,color='c',label='beta')
 
 plt.subplot(412)
 plt.title('Roll Angle phi (degs)')
-plt.plot(t,y[0][:,1]*180/pi, color='r', label='alpha')
+plt.plot(t,y[0][:,1]*180/pi, color='r', label='phi')
 
 plt.subplot(413)
-plt.title('Roll Rate p (m/s)')
-plt.plot(t,y[0][:,2],color='b',label='theta')
+plt.title('Roll Rate p (rad/s)')
+plt.plot(t,y[0][:,2],color='b',label='q')
 
 plt.subplot(414)
-plt.title('Yaw Rate r (m/s)')
-plt.plot(t,y[0][:,3],color='g',label='q')
+plt.title('Yaw Rate r (rad/s)')
+plt.plot(t,y[0][:,3],color='g',label='r')
+
 plt.show()
 
 
