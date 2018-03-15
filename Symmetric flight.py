@@ -60,7 +60,7 @@ d_sym_dimless=zeros((6,1))
 sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
 
 #-----Matrix analysis--------------------------------------------------------
-"""
+
 #---dimension having system----------------------------------------------------
 eigenvalues_A_symmetric=linalg.eig(A_sym_dimless)[0]
 print ('Eigenvalues of A_symmetric:',eigenvalues_A_symmetric)
@@ -79,7 +79,7 @@ T12_A_sym_dimless=log(0.5)*c/V0/real(array(linalg.eig(A_sym_dimless)[0]))
 print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless)
 
 Period_A_sym_dimless=2*pi*c/V0/imag(array(linalg.eig(A_sym_dimless)[0]))
-print ('Period of A_sym_dimless:',Period_A_sym_dimless)"""
+print ('Period of A_sym_dimless:',Period_A_sym_dimless)
 
 #---state space computation------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -87,7 +87,7 @@ print ('Period of A_sym_dimless:',Period_A_sym_dimless)"""
 #-------inputs-------------
 t=arange(0,10,0.01)
 
-ude=[-0.01]*len(t) #input vector for elevator deflection
+ude=[-0.005]*len(t) #input vector for elevator deflection
 
 #--which model is selected----------------------------------------------------
 
@@ -101,8 +101,8 @@ sys=sys_symmetric           #standard dimension having
 
 
 
-#y=lsim(sys_sym_dimless,ude,t)   #Original dimless
-y=impulse(sys,t)                #Smpulse input
+y=lsim(sys,ude,t)   #Original dimless
+#y=impulse(sys,t)                #Smpulse input
 #y=step(sys,t)                   #Step input
 
 # y[0][:,0]: u
@@ -117,42 +117,42 @@ y=impulse(sys,t)                #Smpulse input
 
 period=abs((y[1][where(y[0][:,1] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
 
-print (period)
+print ('alpha',period)
 
-period=abs((y[1][where(y[0][:,2] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
-period=abs((y[1][where(y[0][:,3] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
-period=abs((y[1][where(y[0][:,4] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
+print ('theta',abs((y[1][where(y[0][:,2] == y[0][:,2].max())]-y[1][where(y[0][:,2] == y[0][:,2].min())])*2))
+print ('q',abs((y[1][where(y[0][:,3] == y[0][:,3].max())]-y[1][where(y[0][:,3] == y[0][:,3].min())])*2))
+print ('u',abs((y[1][where(y[0][:,0] == y[0][:,0].max())]-y[1][where(y[0][:,0] == y[0][:,0].min())])*2))
 
 
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 
-plt.subplot(711)
-plt.title('Input: Elevator Deflection Angle deltael (degs)')
-plt.plot(t,array(ude)*180/pi,color='m',label='i')
+plt.subplot(511)
+plt.title('Input: Elevator Deflection Angle deltael (rad)')
+plt.plot(t,array(ude),color='m',label='i')
 
-plt.subplot(712)
-plt.title('Velocity u (m/s)')
-plt.plot(t,y[0][:,0],color='c',label='u')
+plt.subplot(512)
+plt.title('Velocity V (m/s)')
+plt.plot(t,y[0][:,0]+V0,color='c',label='u')
 
-plt.subplot(713)
-plt.title('Angle of Attack alpha (degs)')
-plt.plot(t,y[0][:,1]*180/pi, color='r', label='alpha')
+plt.subplot(513)
+plt.title('Angle of Attack alpha (rad)')
+plt.plot(t,y[0][:,1], color='r', label='alpha')
 
-plt.subplot(714)
-plt.title('Fligth Path Angle theta (degs)')
-plt.plot(t,y[0][:,2]*180/pi,color='b',label='theta')
+plt.subplot(514)
+plt.title('Fligth Path Angle theta (rad)')
+plt.plot(t,y[0][:,2],color='b',label='theta')
 
-plt.subplot(715)
-plt.title('Pitch Rate q (degs/s)')
-plt.plot(t,y[0][:,3]*180/pi,color='g',label='q')
-
+plt.subplot(515)
+plt.title('Pitch Rate q (rad/s)')
+plt.plot(t,y[0][:,3],color='g',label='q')
+"""
 plt.subplot(716)
 plt.title('Altitude (m)')
 #plt.plot(t,y[0][:,4],color='y',label='h')
 
 plt.subplot(717)
 plt.title('Rate of Climb (m/s)')
-#plt.plot(t,y[0][:,5],color='k',label='h')
+#plt.plot(t,y[0][:,5],color='k',label='h')"""
 plt.show()
