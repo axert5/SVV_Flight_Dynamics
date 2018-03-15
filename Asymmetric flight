@@ -82,10 +82,11 @@ sys_hybrid=ss(A_asym_dimless, B_asym_dimless,C_asym_hybrid,D_asym_dimless)
 #-------------------------------------------------------------------------------
 
 #-------inputs-------------
-t=arange(0,10,0.01)
+step=0.01
+t=arange(0,10,step)
 
-uda=[1]*len(t)              #input vector for aileron deflection
-udr=[2]*len(t)              #input vector for rudder deflection
+uda=[0]*len(t)              #input vector for aileron deflection
+udr=[0.025]*int(1/step)+[0]*(len(t)-int(1/step))              #input vector for rudder deflection
 u=vstack((uda,udr)).T       #input vector to model
 
 #--which model is selected----------------------------------------------------
@@ -111,56 +112,64 @@ print('Asymmetric Flight:')
 
 print()
 
-eigenvalues_A_sym_dimless=linalg.eig(A_sym_dimless)[0]
-print ('Eigenvalues of Short Period:',eigenvalues_A_sym_dimless[:-2] )
-print ('Eigenvalues of Phugoid:',eigenvalues_A_sym_dimless[-2:] )
+eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)[0]
+print ('Eigenvalues of Short Period:',eigenvalues_A_asym_dimless)
+
 
 print()
 
-T12_A_sym_dimless=log(0.5)/real(array(linalg.eig(A_sym_dimless)[0]))
-print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[0])
-print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[2])
+T12_A_asym_dimless=log(0.5)/real(array(linalg.eig(A_asym_dimless)[0]))
+print ('T1/2 of A_sym_dimless:',T12_A_asym_dimless)
+
 
 print()
 
-Period_A_sym_dimless=2*pi/imag(array(linalg.eig(A_sym_dimless)[0]))
-print ('Period of Short Period:',Period_A_sym_dimless[0])
-print ('Period of Phugoid:',Period_A_sym_dimless[2])
+Period_A_asym_dimless=2*pi/imag(array(linalg.eig(A_asym_dimless)[0]))
+print ('Period of Short Period:',Period_A_asym_dimless)
+
 
 print()
 
 damping=damp(sys,doprint=False)[1]
-print ('Damping of Short Period:',damping[0])
-print ('Damping of Phugoid:',damping[2])
+print ('Damping of Short Period:',damping)
+
 
 print()
 
 natfreq=damp(sys,doprint=False)[0]*sqrt(1-damp(sys,doprint=False)[1]**2)
-print ('Nat. Frequency of Short Period:',natfreq[0])
-print ('Nat. Frequency of Phugoid:',natfreq[2])
+print ('Nat. Frequency of Short Period:',natfreq)
+
 
 print()
-
+damp(sys)
 
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 
-plt.subplot(411)
-plt.title('Sideslip Angle beta (degs)')
-plt.plot(t,y[0][:,0]*180/pi,color='c',label='beta')
+plt.subplot(611)
+plt.title('Sideslip Angle beta (rad)')
+plt.plot(t,y[0][:,0],color='c',label='beta')
 
-plt.subplot(412)
-plt.title('Roll Angle phi (degs)')
-plt.plot(t,y[0][:,1]*180/pi, color='r', label='phi')
+plt.subplot(612)
+plt.title('Roll Angle phi (rad)')
+plt.plot(t,y[0][:,1], color='r', label='phi')
 
-plt.subplot(413)
+plt.subplot(613)
 plt.title('Roll Rate p (rad/s)')
 plt.plot(t,y[0][:,2],color='b',label='q')
 
-plt.subplot(414)
+plt.subplot(614)
 plt.title('Yaw Rate r (rad/s)')
 plt.plot(t,y[0][:,3],color='g',label='r')
+
+plt.subplot(615)
+plt.title('input in rudder')
+plt.plot(t,udr,color='y',label='dr')
+
+plt.subplot(616)
+plt.title('input in aileron')
+plt.plot(t,uda,color='k',label='da')
 
 #plt.show()
 
