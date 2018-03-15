@@ -109,8 +109,8 @@ def short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma):
         Eig1    - First eigenValue of the system 
         Eig2    - Second eigenValue of the system 
     """
-    A = 4 * muc**2 * KY2**2
-    B = -2 * muc * (KY2**2 * CZa + Cmadot + Cmq)
+    A = 4 * muc**2 * KY2
+    B = -2 * muc * (KY2 * CZa + Cmadot + Cmq)
     C = CZa * Cmq - 2 * muc * Cma
     j = np.complex(0 , 1)
     
@@ -168,8 +168,8 @@ def dutch_roll(mub , KZ2 , Cnr , CYb , Cnb):
         Eig1    - First eigenValue of the system
         Eig2    - Second eigenValue of the system
     """
-    A = 8 * mub**2 * KZ2 ** 2
-    B = -2 * mub * (Cnr + 2 * KZ2**2 * CYb)
+    A = 8 * mub**2 * KZ2
+    B = -2 * mub * (Cnr + 2 * KZ2 * CYb)
     C = 4 * mub * Cnb + CYb * Cnr
     j = np.complex(0 , 1)
     
