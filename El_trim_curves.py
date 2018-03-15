@@ -13,6 +13,8 @@ W_empty = 3364                                                  #kg
 W_fuel_start = 4100*0.45359237                                  #kg
 gamma = 1.4
 R = 287.05
+diameter_jet = 0.52                                             #m
+S = 30.00                                                       #m^2
 
 from numpy import *
 from CLCD_calc import V_tas, lift_stationary
@@ -32,6 +34,9 @@ fuel_flow_left = array([466, 462, 458, 453, 470, 479, 489])*0.000125997881     #
 fuel_flow_right = array([490, 486, 483,478, 493, 500, 510])*0.000125997881     #kg/s
 fuel_used = array([632, 646, 666, 686, 707, 726, 760])*0.45359237              #kg
 total_air_temp = array([-0.2, -1.2, -2.2, -3, 0.2, 1.5, 2.8]) + 273.15         #Kelvin
+thrust_left = array([2007.77, 2045.94, 2086.33, 2112.19, 1982.68, 1971.24, 1960.71])
+thrust_right = array([2185.43, 2226.46, 2275.74, 2306.23, 2149.08, 2121.65, 2108.01])
+thrust_total = array(thrust_left+thrust_right)
 
 #Weights at start tests
 W_start = []
@@ -51,7 +56,6 @@ for i in range(len(hp)):
     p1 = p0*(1 + (lamda*hp[i])/T0)**(-g/(R*lamda))
     p.append(p1)
 
-
 #Mach  
 M = []
 
@@ -67,9 +71,7 @@ for i in range(len(p)):
     M.append(M8)
 
 #Calibrated Temp
-
 Temp_c = []
-
 for i in range(len(M)):
     Temp_c.append(total_air_temp[i]/(1+((gamma-1)/2)*M[i]**2))
 
@@ -87,14 +89,31 @@ rho = []
 for i in range(len(hp)):
     rho.append(rho1(hp[i],Vc[i],total_air_temp[i]))
 
-
-
-'''
+#Reduced Equivalent Airspeed
 V_e = []
 for i in range(len(rho)):
-    V_e.append(V_tas[i]*(sqrt(rho[i])/rho0)*(Ws/lift_stationary[i]))
-'''
+    V_e.append(V_tas[i]*(sqrt(rho[i])/rho0)*(Ws/W_start[i]))
+    
 #Dimensionless Thrust Coefficient (Tc)
+thrust_c = []
+for i in range(len(thrust_total)):
+    thrust_c.append(thrust_total[i]/(0.5*rho[i]*V_tas[i]**2*diameter_jet**2))
+    
+#Delta_eq Calculation ### GEBRUIK MEASURED DELTA EQ VAN TEST FLIGHT!!!
+delta_eq = -(1/Cmde)*(Cm0+(Cma/Cna)*(W_start[i]/(0.5*rho[i]*V_tas[i]**2*S))+CmTc*thrust_c[i]) 
+
 
 
 #delta_eq = -(1/Cmde)*(Cm0+Cma(a-a0)+CmTc*Tc)
+
+
+
+
+
+
+
+
+
+
+
+
