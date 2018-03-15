@@ -4,7 +4,7 @@ Created on Wed Mar  7 11:11:44 2018
 
 @author: xx
 """
-from Cit_par import *
+from Cit_par_book import *
 from numpy import*
 from control.matlab import*
 import matplotlib.pyplot as plt
@@ -85,7 +85,7 @@ print ('Period of A_sym_dimless:',Period_A_sym_dimless)
 #-------------------------------------------------------------------------------
 
 #-------inputs-------------
-t=arange(0,10,0.01)
+t=arange(0,150,0.01)
 
 ude=[-0.005]*len(t) #input vector for elevator deflection
 
@@ -101,8 +101,8 @@ sys=sys_symmetric           #standard dimension having
 
 
 
-y=lsim(sys,ude,t)   #Original dimless
-#y=impulse(sys,t)                #Smpulse input
+y=lsim(sys,ude,t)   #Using input vector
+#y=impulse(sys,t)                #Impulse input
 #y=step(sys,t)                   #Step input
 
 # y[0][:,0]: u
@@ -115,15 +115,13 @@ y=lsim(sys,ude,t)   #Original dimless
 
 #------------------graph analysis---------------------------------------------
 
-period=abs((y[1][where(y[0][:,1] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
-
-print ('alpha',period)
-
+print ('alpha',abs((y[1][where(y[0][:,1] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2))
 print ('theta',abs((y[1][where(y[0][:,2] == y[0][:,2].max())]-y[1][where(y[0][:,2] == y[0][:,2].min())])*2))
 print ('q',abs((y[1][where(y[0][:,3] == y[0][:,3].max())]-y[1][where(y[0][:,3] == y[0][:,3].min())])*2))
 print ('u',abs((y[1][where(y[0][:,0] == y[0][:,0].max())]-y[1][where(y[0][:,0] == y[0][:,0].min())])*2))
 
 
+print( 'Period', damp(sys)[0]**(-1))
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)

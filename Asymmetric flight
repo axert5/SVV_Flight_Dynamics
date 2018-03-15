@@ -115,7 +115,7 @@ sys=sys_asymmetric          #standard dimension having
 
 #--what Input is selected------------------------------------------------------
 
-y=lsim(sys,u,t)              #Using input vector
+y=lsim(sys,u,t)                     #Using input vector
 #y=impulse(sys,t,input=0)            #Impulse input: 0=aileron // 1= rudder
 #y=step(sys,t,input=0)               #Step input: 0=aileron // 1= rudder
 
