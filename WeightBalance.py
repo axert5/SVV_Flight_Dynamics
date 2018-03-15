@@ -9,27 +9,11 @@ PH-LAB
 Flight 1, 09.03.2017
 """
 from numpy  import*
-import matplotlib.pyplot as bplt
-from scipy import interpolate
-
-#inputs:
-#0 Total current fuel mass of the aircraft
-#1 cg shift. 0= no shift// 1= shift
-
-#outputs:
-#0 total aircraft mass in [kg]
-#1 current x_cg from forward end of MAC in [m]
-#2 total moment around forward end of MAC in [kgm]
-#3 total moment around datum in [kgm]
-#4 total aircraft mass in [lbs]
-#5 current x_cg from datum in [in]
-#6 total moment around datum in [in-lbs]
-
 
 def cg(Fuel,shift):
     """
     inputs:
-    0 Total current fuel mass of the aircraft
+    0 Total current fuel mass of the aircraft in [lbs]
     1 cg shift. 0= no shift// 1= shift
 
     outputs:
@@ -96,7 +80,7 @@ def cg(Fuel,shift):
                       5425.64,5709.90,5994.04,6278.47,6562.82,6846.96,7131.00,7415.33,7699.60,
                       7984.34,8269.06,8554.05,8839.04,9124.80,9410.62,9696.97,9983.40,10270.08,
                       10556.84,10843.87,11131.00,11418.20,11705.50,11993.31,12281.18,12569.04,
-                      12856.86,13144.73,13432.48,13720.56,14008.46,14320.34])
+                      12856.86,13144.73,13432.48,13720.56,14008.46,14320.34])*100
     
 #total ramp fuel was 4100 lbs   
     min = 100

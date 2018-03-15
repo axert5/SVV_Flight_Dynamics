@@ -65,7 +65,7 @@ for i in range(len(V_kts)):
 V=array(V)
 Vc = V-2*.51444444444
 
-print ('Vc is',Vc)
+#print ('Vc is',Vc)
     
 temp_0 = 273.15                                                                #standard temperature Kelvin at sea level
 total_temp_stationary = [7.3, 2.5, 1.0, -0.2, -1.0, -2.5]                      #Celsius of temperatures during test measured
@@ -79,14 +79,13 @@ for i in range(len(total_temp_stationary)):
 
 from rho import rho1
 hp = [2133.6, 2133.6, 2133.6, 2133.6, 2130.552, 2097.024]
-Vc = [126.0966667, 111.6922222, 96.25888888, 80.82555555, 70.53666666, 58.18999999]
-Ttot = [278.15, 275.65, 274.15, 272.95, 272.15, 270.65]
+#Ttot = [278.15, 275.65, 274.15, 272.95, 272.15, 270.65]
 rho = []
 
 for i in range(len(hp)):
-    rho2 = rho1(hp[i],Vc[i],Ttot[i])
+    rho2 = rho1(hp[i],Vc[i],total_temp_stationary[i])
     rho.append(rho2)
-print('rho is',rho)
+#print('rho is',rho)
 
 ###Pressure calculation
 
@@ -96,7 +95,7 @@ for i in range(len(hp)):
     p1 = p0*(1 + (lamda*hp[i])/T0)**(-g/(R*lamda))
     p.append(p1)
 
-print ('p is', p)
+#print ('p is', p)
     
 #Mach number calculation
 
@@ -113,19 +112,37 @@ for i in range(len(p)):
     M8 = sqrt(M7)
     M.append(M8)
             
-print ('M is', M)
+#print ('M is', M)
 
-#### ZET DE GOEIE T ERIN -->> Ttotal / (1+gamma-1/2*M^2)
+#Calibrated Temp
 
+Temp_c = []
+
+for i in range(len(M)):
+    Tc1 = total_temp_stationary[i]/(1+((gamma-1)/2)*M[i]**2)
+    Temp_c.append(Tc1)
+
+#Angle of attack
+aoa = []
+for i in range(len(M)):
+    aoa1 = sqrt(gamma*R*Temp_c[i])
+    aoa.append(aoa1)
+    
+#True Airspeed
+V_tas = []
+for i in range(len(M)):
+     V_tas.append(aoa[i]*M[i])
 
 ### C_L Calculation
     
 C_L = []
+C_Lsquared = []
 
 for i in range(len(lift_stationary)):
-    C_L_formula = lift_stationary[i]/(0.5*rho[i]*Vc[i]**2*S)                    #C_L formula
+    C_L_formula = lift_stationary[i]/(0.5*rho[i]*V_tas[i]**2*S)                #C_L formula
     C_L.append(C_L_formula)                                                    #C_L values for stationary flight data
-
+    C_L2 = (C_L_formula)**2
+    C_Lsquared.append(C_L2)                                                    #
 
 #thrust_left = [3695.85, 2842.33, 2483.98, 2097.37, 1651.94, 2037.49]
 #thrust_right = [3688.72, 2919.02, 2612.52, 2217.44, 1818.36, 2236.48]
@@ -139,16 +156,16 @@ thrust_total = [7236.03, 5761.35, 5096.5, 4314.81, 3470.3, 4273.97]
 C_D = []
 
 for i in range(len(thrust_total)):
-    C_D_formula = thrust_total[i]/(0.5*rho[i]*Vc[i]**2*S)                      #C_D formula
+    C_D_formula = thrust_total[i]/(0.5*rho[i]*V_tas[i]**2*S)                   #C_D formula
     C_D.append(C_D_formula)                                                    #C_D values for stationary flight data
 
-print('CD is', C_D)
+#print('CD is', C_D)
 
 ### Alpha values 
 
 alpha_rad = array([0.02792526803, 0.04188790205, 0.06108652382, 0.09424777961, 0.1291543646, 0.193731547])
-'''
-plt.plot(C_D, C_L, 'ro')
+
+plt.plot(C_D, C_L, 'r')
 plt.xlabel('C_D')
 plt.ylabel('C_L')
 plt.show()
@@ -162,7 +179,12 @@ plt.plot(alpha_rad, C_D, 'g')
 plt.xlabel('alpha')
 plt.ylabel('C_D')
 plt.show()
-'''
+
+plt.plot(C_Lsquared,C_D, 'y')
+plt.xlabel('C_L^2')
+plt.ylabel('C_D')
+plt.show()
+
     
     
   

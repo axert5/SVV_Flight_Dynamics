@@ -74,7 +74,7 @@ sys_asym_dimless=ss(A_asym_dimless,B_asym_dimless,C_asym_dimless,D_asym_dimless)
 sys_hybrid=ss(A_asym_dimless, B_asym_dimless,C_asym_hybrid,D_asym_dimless)
 
 #-----Matrix analysis--------------------------------------------------------
-
+"""
 #---dimension having system----------------------------------------------------
 eigenvalues_A_asymmetric=linalg.eig(A_asymmetric)[0]
 print ('Eigenvalues of A_asymmetric:',eigenvalues_A_asymmetric)
@@ -93,7 +93,7 @@ T12_A_asym_dimless=log(0.5)*c/V0/real(array(linalg.eig(A_asym_dimless)[0]))
 print ('T1/2 of A_asym_dimless:',T12_A_asym_dimless)
 
 Period_A_asym_dimless=2*pi*c/V0/imag(array(linalg.eig(A_asym_dimless)[0]))
-print ('Period of A_asym_dimless:',Period_A_asym_dimless)
+print ('Period of A_asym_dimless:',Period_A_asym_dimless)"""
 
 
 #---state space computation------------------------------------------------------
@@ -118,6 +118,12 @@ sys=sys_asymmetric          #standard dimension having
 y=lsim(sys,u,t)              #Using input vector
 #y=impulse(sys,t,input=0)            #Impulse input: 0=aileron // 1= rudder
 #y=step(sys,t,input=0)               #Step input: 0=aileron // 1= rudder
+
+#------------------graph analysis---------------------------------------------
+
+period=abs((y[1][where(y[0][:,0] == y[0][:,0].max())]-y[1][where(y[0][:,0] == y[0][:,0].min())])*2)
+
+print (period)
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
