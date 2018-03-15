@@ -60,7 +60,7 @@ d_sym_dimless=zeros((6,1))
 sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
 
 #-----Matrix analysis--------------------------------------------------------
-
+"""
 #---dimension having system----------------------------------------------------
 eigenvalues_A_symmetric=linalg.eig(A_sym_dimless)[0]
 print ('Eigenvalues of A_symmetric:',eigenvalues_A_symmetric)
@@ -79,7 +79,7 @@ T12_A_sym_dimless=log(0.5)*c/V0/real(array(linalg.eig(A_sym_dimless)[0]))
 print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless)
 
 Period_A_sym_dimless=2*pi*c/V0/imag(array(linalg.eig(A_sym_dimless)[0]))
-print ('Period of A_sym_dimless:',Period_A_sym_dimless)
+print ('Period of A_sym_dimless:',Period_A_sym_dimless)"""
 
 #---state space computation------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -102,8 +102,8 @@ sys=sys_symmetric           #standard dimension having
 
 
 #y=lsim(sys_sym_dimless,ude,t)   #Original dimless
-#y=impulse(sys,t)                #Smpulse input
-y=step(sys,t)                   #Step input
+y=impulse(sys,t)                #Smpulse input
+#y=step(sys,t)                   #Step input
 
 # y[0][:,0]: u
 # y[0][:,1]: alpha
@@ -112,6 +112,18 @@ y=step(sys,t)                   #Step input
 # y[0][:,4]: h   - for u=0
 # y[0][:,5]: ROC - for u=0
 #y[1]:       t
+
+#------------------graph analysis---------------------------------------------
+
+period=abs((y[1][where(y[0][:,1] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
+
+print (period)
+
+period=abs((y[1][where(y[0][:,2] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
+period=abs((y[1][where(y[0][:,3] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
+period=abs((y[1][where(y[0][:,4] == y[0][:,1].max())]-y[1][where(y[0][:,1] == y[0][:,1].min())])*2)
+
+
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
