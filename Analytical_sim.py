@@ -53,7 +53,7 @@ damp_dr    = dutch_roll(mub , KZ2 , Cnr , CYb , Cnb)[3] / (2 * np.sqrt(dutch_rol
 omegan_dr  = omega0_dr * np.sqrt(1-damp_dr**2)             #Eigenfrequency
 T_half_dr  = -np.log(0.5)/ omega0_dr / damp_dr             #Half amplitude time
 
-print ( V0 / c * np.sqrt(phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[4] / phugoid(muc, CZa, Cmq, Cma,CXu , Cmu, CXa, CZu , CZ0)[2]))
+
 
 print ("------------Short period-------------")
 print ("Period:             " , P_sp)
