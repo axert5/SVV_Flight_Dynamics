@@ -164,7 +164,7 @@ for i in range(len(thrust_total)):
 ### Alpha values 
 
 alpha_rad = array([0.02792526803, 0.04188790205, 0.06108652382, 0.09424777961, 0.1291543646, 0.193731547])
-
+'''
 plt.plot(C_D, C_L, 'r')
 plt.xlabel('C_D')
 plt.ylabel('C_L')
@@ -184,7 +184,7 @@ plt.plot(C_Lsquared,C_D, 'y')
 plt.xlabel('C_L^2')
 plt.ylabel('C_D')
 plt.show()
-
+'''
     
     
   

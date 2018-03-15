@@ -7,9 +7,13 @@ Created on Wed Mar  7 11:58:57 2018
 """
 #meh
 from numpy import *
-from Cit_par import *
+from Cit_par_book import *
 from control.matlab import*
 import matplotlib.pyplot as plt
+import warnings
+import matplotlib.cbook
+warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
+
 
 #Asymmetrical case
 
@@ -73,28 +77,6 @@ sys_asym_dimless=ss(A_asym_dimless,B_asym_dimless,C_asym_dimless,D_asym_dimless)
 #dimensionless computation but dimension having output
 sys_hybrid=ss(A_asym_dimless, B_asym_dimless,C_asym_hybrid,D_asym_dimless)
 
-#-----Matrix analysis--------------------------------------------------------
-"""
-#---dimension having system----------------------------------------------------
-eigenvalues_A_asymmetric=linalg.eig(A_asymmetric)[0]
-print ('Eigenvalues of A_asymmetric:',eigenvalues_A_asymmetric)
-
-T12_A_asymmetric=log(0.5)*c/V0/real(array(linalg.eig(A_asymmetric)[0]))
-print ('T1/2 of A_asymmetric:',T12_A_asymmetric)
-
-Period_A_asymmetric=2*pi*c/V0/imag(array(linalg.eig(A_asymmetric)[0]))
-print ('Period of A_asymmetric:',Period_A_asymmetric)
-
-#--------dimensionless system--------------------------------------------------
-eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)[0]
-print ('Eigenvalues of A_asym_dimless:',eigenvalues_A_asym_dimless )
-
-T12_A_asym_dimless=log(0.5)*c/V0/real(array(linalg.eig(A_asym_dimless)[0]))
-print ('T1/2 of A_asym_dimless:',T12_A_asym_dimless)
-
-Period_A_asym_dimless=2*pi*c/V0/imag(array(linalg.eig(A_asym_dimless)[0]))
-print ('Period of A_asym_dimless:',Period_A_asym_dimless)"""
-
 
 #---state space computation------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -108,22 +90,58 @@ u=vstack((uda,udr)).T       #input vector to model
 
 #--which model is selected----------------------------------------------------
 
-sys=sys_asymmetric          #standard dimension having
+#sys=sys_asymmetric          #standard dimension having
 #sys=sys_hybrid              #dimless computation, dim having outputs
-#sys=sys_asym_dimless        #dimless outputs
+sys=sys_asym_dimless        #dimless outputs
 
 
 #--what Input is selected------------------------------------------------------
 
-y=lsim(sys,u,t)              #Using input vector
+y=lsim(sys,u,t)                     #Using input vector
 #y=impulse(sys,t,input=0)            #Impulse input: 0=aileron // 1= rudder
 #y=step(sys,t,input=0)               #Step input: 0=aileron // 1= rudder
 
-#------------------graph analysis---------------------------------------------
 
-period=abs((y[1][where(y[0][:,0] == y[0][:,0].max())]-y[1][where(y[0][:,0] == y[0][:,0].min())])*2)
+#-----Matrix analysis--------------------------------------------------------
 
-print (period)
+#--------dimensionless system--------------------------------------------------
+print()
+
+print('Asymmetric Flight:')
+
+print()
+
+eigenvalues_A_sym_dimless=linalg.eig(A_sym_dimless)[0]
+print ('Eigenvalues of Short Period:',eigenvalues_A_sym_dimless[:-2] )
+print ('Eigenvalues of Phugoid:',eigenvalues_A_sym_dimless[-2:] )
+
+print()
+
+T12_A_sym_dimless=log(0.5)/real(array(linalg.eig(A_sym_dimless)[0]))
+print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[0])
+print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[2])
+
+print()
+
+Period_A_sym_dimless=2*pi/imag(array(linalg.eig(A_sym_dimless)[0]))
+print ('Period of Short Period:',Period_A_sym_dimless[0])
+print ('Period of Phugoid:',Period_A_sym_dimless[2])
+
+print()
+
+damping=damp(sys,doprint=False)[1]
+print ('Damping of Short Period:',damping[0])
+print ('Damping of Phugoid:',damping[2])
+
+print()
+
+natfreq=damp(sys,doprint=False)[0]*sqrt(1-damp(sys,doprint=False)[1]**2)
+print ('Nat. Frequency of Short Period:',natfreq[0])
+print ('Nat. Frequency of Phugoid:',natfreq[2])
+
+print()
+
+
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
@@ -144,7 +162,7 @@ plt.subplot(414)
 plt.title('Yaw Rate r (rad/s)')
 plt.plot(t,y[0][:,3],color='g',label='r')
 
-plt.show()
+#plt.show()
 
 
 
