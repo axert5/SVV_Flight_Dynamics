@@ -9,9 +9,6 @@ PH-LAB
 Flight 1, 09.03.2017
 """
 from numpy  import*
-import matplotlib.pyplot as bplt
-from scipy import interpolate
-
 
 def cg(Fuel,shift):
     """
