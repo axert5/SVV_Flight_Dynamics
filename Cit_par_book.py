@@ -31,7 +31,7 @@ Sh_S   = Sh / S	          # [ ]
 lh     = 0.71 * 5.968    # tail length [m]
 c      = 2.022	          # mean aerodynamic cord [m]
 lh_c   = lh / c	          # [ ]
-b      = 15.911	          # wing span [m]
+b      = 13.36	          # wing span [m]
 bh     = 5.791	          # stabilser span [m]
 A      = b ** 2 / S      # wing aspect ratio [ ]
 Ah     = bh ** 2 / Sh    # stabilser aspect ratio [ ]
@@ -58,8 +58,8 @@ W      = m * g            # [N]       (aircraft weight)
 
 muc    = 102.7
 mub    = m / (rho * S * b)
-KX2    = 0.019
-KZ2    = 0.042
+KX2    = 0.012
+KZ2    = 0.037
 KXZ    = 0.002
 KY2    = 0.980
 
@@ -72,7 +72,7 @@ depsda = 4 / (A + 2)            # Downwash gradient [ ]
 
 # Lift and drag coefficient
 
-CL = 2 * W / (rho * V0 ** 2 * S)              # Lift coefficient [ ]
+CL = 1.1360              # Lift coefficient [ ]
 CD = CD0 + (CLa * alpha0) ** 2 / (pi * A * e) # Drag coefficient [ ]
 
 # Stabiblity derivatives
@@ -95,25 +95,25 @@ Cmu    = 0
 Cmadot = -3.7
 Cmq    = -7.04
 
-CYb    = -0.7500
+CYb    = -0.9896
 CYbdot =  0     
-CYp    = -0.0304
-CYr    = +0.8495
-CYda   = -0.0400
-CYdr   = +0.2300
+CYp    = -0.0870
+CYr    = +0.4300
+CYda   = -0.0
+CYdr   = +0.3037
 
-Clb    = -0.10260
-Clp    = -0.71085
-Clr    = +0.23760
-Clda   = -0.23088
-Cldr   = +0.03440
+Clb    = -0.0772
+Clp    = -0.3444
+Clr    = +0.2800
+Clda   = -0.2349
+Cldr   = +0.0286
 
-Cnb    =  +0.1348
+Cnb    =  +0.1638
 Cnbdot =   0     
-Cnp    =  -0.0602
-Cnr    =  -0.2061
-Cnda   =  -0.0120
-Cndr   =  -0.0939
+Cnp    =  -0.0108
+Cnr    =  -0.1930
+Cnda   =  -0.0286
+Cndr   =  -0.1261
 
 
 
