@@ -57,7 +57,7 @@ W      = m * g            # [N]       (aircraft weight)
 # Constant values concerning aircraft inertia
 
 muc    = 102.7
-mub    = m / (rho * S * b)
+mub    = 15.5
 KX2    = 0.012
 KZ2    = 0.037
 KXZ    = 0.002
