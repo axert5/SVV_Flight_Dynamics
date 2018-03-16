@@ -3,7 +3,7 @@ Program that gives values for each eigenmotion
 
 """
 
-from Cit_par_book import *
+from Cit_par import *
 from EigFuncVer import *
 import numpy as np
 
