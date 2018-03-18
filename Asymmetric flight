@@ -86,15 +86,17 @@ timestep=0.01 #[s]
 
 t=arange(0,simlength,timestep)
 
-uda=[0]*len(t)              #input vector for aileron deflection
-udr=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep))              #input vector for rudder deflection
+uda=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep)) #input vector for aileron deflection
+#uda=[0]*len(t)              
+udr=[0]*len(t) 
+#udr=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep))#input vector for rudder deflection
 u=vstack((uda,udr)).T       #input vector to model
 
 #--which model is selected----------------------------------------------------
 
 #sys=sys_asymmetric          #standard dimension having
-#sys=sys_hybrid              #dimless computation, dim having outputs
-sys=sys_asym_dimless        #dimless outputs
+sys=sys_hybrid              #dimless computation, dim having outputs
+#sys=sys_asym_dimless        #dimless outputs
 
 
 #--what Input is selected------------------------------------------------------
@@ -113,7 +115,7 @@ print('Asymmetric Flight:')
 
 print()
 
-eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)
+eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)[0]
 print ('Eigenvalues:',eigenvalues_A_asym_dimless)
 
 print()
