@@ -38,8 +38,8 @@ C3_asymmetric = matrix([[CYda,CYdr],
                         ])
 
 
-A_asymmetric = linalg.inv(-C1_asymmetric)*C2_asymmetric
-B_asymmetric = linalg.inv(-C1_asymmetric)*C3_asymmetric
+A_asymmetric = -linalg.inv(C1_asymmetric)*C2_asymmetric
+B_asymmetric = -linalg.inv(C1_asymmetric)*C3_asymmetric
 C_asymmetric = identity(4)
 D_asymmetric = zeros((4,2))
 
@@ -48,25 +48,22 @@ sys_asymmetric=ss(A_asymmetric,B_asymmetric,C_asymmetric,D_asymmetric)
 # dimensionless
 C1_asym_dimless = matrix([[(CYbdot-2*mub)*b/V0,0,0,0],
                          [0,-b/(2*V0),0,0], 
-                         [0,0,(-4*mub*KX2*b)/V0,(4*mub*KXZ*b)/V0],
-                         [Cnbdot*b/(V0),0,(4*mub*KXZ*b)/V0,(-4*mub*KZ2*b)/V0]
-                         ])
+                         [0,0,-4*mub*KX2*b/V0,4*mub*KXZ*b/V0],
+                         [Cnbdot*b/V0,0,4*mub*KXZ*b/V0,-4*mub*KZ2*b/V0]])
 
 C2_asym_dimless = matrix([[CYb, CL, CYp,(CYr-4*mub)],
                          [0,0,1,0],
                          [Clb,0,Clp,Clr],
-                         [Cnb,0,Cnp,Cnr]
-                         ])
+                         [Cnb,0,Cnp,Cnr]])
 
 C3_asym_dimless = matrix([[CYda,CYdr],
                         [0,0],
                         [Clda,Cldr],
-                        [Cnda,Cndr]
-                        ])
+                        [Cnda,Cndr]])
 
 
-A_asym_dimless = linalg.inv(-C1_asym_dimless)*C2_asym_dimless
-B_asym_dimless = linalg.inv(-C1_asym_dimless)*C3_asym_dimless
+A_asym_dimless = -linalg.inv(C1_asym_dimless)*C2_asym_dimless
+B_asym_dimless = -linalg.inv(C1_asym_dimless)*C3_asym_dimless
 C_asym_dimless=identity(4)
 C_asym_hybrid = matrix([[1,0,0,0],[0,1,0,0],[0,0,2*V0/b,0],[0,0,0,2*V0/b]])
 D_asym_dimless = zeros((4,2))
@@ -82,11 +79,15 @@ sys_hybrid=ss(A_asym_dimless, B_asym_dimless,C_asym_hybrid,D_asym_dimless)
 #-------------------------------------------------------------------------------
 
 #-------inputs-------------
-step=0.01
-t=arange(0,10,step)
+
+simlength=15 #[s]
+
+timestep=0.01 #[s]
+
+t=arange(0,simlength,timestep)
 
 uda=[0]*len(t)              #input vector for aileron deflection
-udr=[0.025]*int(1/step)+[0]*(len(t)-int(1/step))              #input vector for rudder deflection
+udr=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep))              #input vector for rudder deflection
 u=vstack((uda,udr)).T       #input vector to model
 
 #--which model is selected----------------------------------------------------
@@ -112,32 +113,30 @@ print('Asymmetric Flight:')
 
 print()
 
-eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)[0]
-print ('Eigenvalues of Short Period:',eigenvalues_A_asym_dimless)
-
+eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)
+print ('Eigenvalues:',eigenvalues_A_asym_dimless)
 
 print()
 
 T12_A_asym_dimless=log(0.5)/real(array(linalg.eig(A_asym_dimless)[0]))
-print ('T1/2 of A_sym_dimless:',T12_A_asym_dimless)
-
+print ('T1/2:',T12_A_asym_dimless)
 
 print()
 
 Period_A_asym_dimless=2*pi/imag(array(linalg.eig(A_asym_dimless)[0]))
-print ('Period of Short Period:',Period_A_asym_dimless)
+print ('Period:',Period_A_asym_dimless)
 
 
 print()
 
 damping=damp(sys,doprint=False)[1]
-print ('Damping of Short Period:',damping)
+print ('Damping:',damping)
 
 
 print()
 
 natfreq=damp(sys,doprint=False)[0]*sqrt(1-damp(sys,doprint=False)[1]**2)
-print ('Nat. Frequency of Short Period:',natfreq)
+print ('Nat. Frequency:',natfreq)
 
 
 print()
