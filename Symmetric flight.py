@@ -4,7 +4,7 @@ Created on Wed Mar  7 11:11:44 2018
 
 @author: xx
 """
-from Cit_par import *
+#from Cit_par import *
 from numpy import*
 from control.matlab import*
 import matplotlib.pyplot as plt
