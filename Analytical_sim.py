@@ -6,7 +6,7 @@ Program that gives values for each eigenmotion
 from Cit_par import *
 from EigFuncVer import *
 import numpy as np
-
+from numpy.linalg import eig
 
 """
 print("Dimension-less for short period are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma))
@@ -75,3 +75,4 @@ print ("T1/2 :              " , T_half_dr)
 print ("Angular frequency:  " , omega0_dr)
 print ("Damp coefficient:   " , damp_dr)
 print ("Natural frequency:  " , omegan_dr) 
+
