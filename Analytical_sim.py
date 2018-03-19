@@ -8,6 +8,7 @@ from EigFuncVer import *
 import numpy as np
 from numpy.linalg import eig
 
+
 """
 print("Dimension-less for short period are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma))
 print()
@@ -76,3 +77,16 @@ print ("Angular frequency:  " , omega0_dr)
 print ("Damp coefficient:   " , damp_dr)
 print ("Natural frequency:  " , omegan_dr) 
 
+
+A = 16 * mub**3 * (KX2 * KZ2 - KXZ**2)
+B = -4 * mub**2 * (2 * CYb * (KX2*KZ2-KXZ**2) + Cnr * KX2 + Clp * KZ2 + (Clr + Cnp) * KXZ)
+C = 2 * mub * ((CYb*Cnr - CYr * Cnb) * KX2 + (CYb * Clp - Clb * CYp) * KZ2 + 
+               ((CYb * Cnp - Cnb * CYp) + (CYb * Clr - Clb * CYr)) * KXZ +
+               4*mub * Cnb * KX2 + 4 * mub * Clb * KXZ + 0.5 * (Clp * Cnr - Cnp * Clr))
+D = -4 * mub * CL * (Clb * KZ2 + Cnb * KXZ) + 2*mub*(Clb * Cnp - Cnb * Clp) + 0.5 * CYb * (Clr * Cnp - Cnr * Clp) + 0.5 * CYp * (Clb * Cnr- Cnb * Clr) + 0.5 * CYr * (Clp * Cnb - Cnp * Clb)
+E = CL * (Clb * Cnr - Cnb * Clr)
+
+Re = np.real(np.roots([A , B , C , D , E])[1])
+Im = np.imag(np.roots([A , B , C , D , E])[1])
+
+print ( -Re / np.sqrt(Re**2 + Im**2) , np.sqrt(Re**2 + Im**2) * V0 / b)
