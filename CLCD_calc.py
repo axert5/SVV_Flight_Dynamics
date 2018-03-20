@@ -185,8 +185,6 @@ plt.xlabel('C_L^2')
 plt.ylabel('C_D')
 plt.show()
 '''
-    
-    
   
 
 
