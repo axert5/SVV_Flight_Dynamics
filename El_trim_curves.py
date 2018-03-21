@@ -13,7 +13,7 @@ W_empty = 3364                                                  #kg
 W_fuel_start = 4100*0.45359237                                  #kg
 gamma = 1.4
 R = 287.05
-diameter_jet = 0.52                                             #m
+diameter_jet = 0.686                                             #m
 S = 30.00                                                       #m^2
 p0 = 101325     
 lamda = -0.0065
@@ -41,7 +41,7 @@ thrust_left = array([2007.77, 2045.94, 2086.33, 2112.19, 1982.68, 1971.24, 1960.
 thrust_right = array([2185.43, 2226.46, 2275.74, 2306.23, 2149.08, 2121.65, 2108.01])
 thrust_total = array(thrust_left+thrust_right)
 thrust_standard = array([2786.86, 2899.84, 3018.24, 3126.6, 2699.72, 2575.56, 2442])
-delta_e = array([0, -0.4, -0.8, -1.3, 0.4, 0.7, 1])
+delta_e = array([0, -0.4, -0.8, -1.3, 0.4, 0.7, 1])*(math.pi/180.)
 
 #Weights at start tests
 W_start = []
@@ -102,13 +102,13 @@ for i in range(len(rho)):
 #Dimensionless Thrust Coefficient (Tc)
 thrust_c = []
 for i in range(len(thrust_total)):
-    thrust_c.append(thrust_total[i]/(0.5*rho[i]*V_e[i]**2*diameter_jet**2)) 
+    thrust_c.append(thrust_total[i]/(0.5*rho[i]*V_tas[i]**2*diameter_jet**2)) 
 
 #Standard thrust measurements
 
 thrust_cs = []
 for i in range(len(thrust_standard)):
-    thrust_cs.append(thrust_standard[i]/(0.5*rho[i]*V_e[i]**2*diameter_jet**2))
+    thrust_cs.append(thrust_standard[i]/(0.5*rho[i]*V_tas[i]**2*diameter_jet**2))
     
 #Delta_eq Calculation 
 for i in range(len(thrust_c)):
@@ -133,18 +133,18 @@ for i in range(len(stick_force)):
 
 stick_force_star_sorted = sort(stick_force_star)
 
-plt.plot(V_esorted,stick_forcesorted, 'xr')
+plt.plot(V_esorted,stick_force_star_sorted, 'xr')
 #plt.plot(V_esorted,stick_forcesorted, 'b')
 plt.xlabel('V_e')
 plt.ylabel('stick_force')
-z = polyfit(V_esorted, stick_forcesorted, 1)
+z = polyfit(V_esorted, stick_force_star_sorted, 1)
 p = poly1d(z)
 plt.plot(V_esorted,p(V_esorted),"black")
 plt.grid()
 plt.show()
 
 print('Trendline coefficients [a,b] for delta_eq = a*V_e+b', polyfit(V_esorted,delta_eqsorted, 1))
-print('Trendline coefficients [a,b] for stick_force = a*V_e+b', polyfit(V_esorted,stick_forcesorted, 1))
+print('Trendline coefficients [a,b] for stick_force = a*V_e+b', polyfit(V_esorted,stick_force_star_sorted, 1))
 
 
 
