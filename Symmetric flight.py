@@ -87,7 +87,7 @@ sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
 #-------inputs-------------
 t=arange(0,15,0.01)
 
-ude=[-0.005]*len(t) #input vector for elevator deflection
+ude=[-0.012]*len(t) #input vector for elevator deflection
 
 #--which model is selected----------------------------------------------------
 
@@ -159,8 +159,8 @@ plt.title('Input: Elevator Deflection Angle deltael (rad)')
 plt.plot(t,array(ude),color='m',label='i')
 
 plt.subplot(512)
-plt.title('Velocity V (m/s)')
-plt.plot(t,y[0][:,0]+V0,color='c',label='u')
+plt.title('Velocity u (m/s)')
+plt.plot(t,y[0][:,0],color='c',label='u')
 
 plt.subplot(513)
 plt.title('Angle of Attack alpha (rad)')
