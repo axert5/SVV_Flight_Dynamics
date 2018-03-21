@@ -13,16 +13,19 @@ W_empty = 3364                                                  #kg
 W_fuel_start = 4100*0.45359237                                  #kg
 gamma = 1.4
 R = 287.05
-diameter_jet = 0.52                                             #m
+diameter_jet = 0.686                                             #m
 S = 30.00                                                       #m^2
+p0 = 101325     
+lamda = -0.0065
+T0 = 288.15                                            
 
 from numpy import *
 from CLCD_calc import V_tas, lift_stationary
 from Cit_par import Cm0, Cma, CmTc, Cmde
 from rho import rho1
+from matplotlib import pyplot as plt
 
 #DATA
-
 W_passengers = sum(array([82, 92, 60, 60, 77, 69, 67, 95, 84]))             #Weight in N
 hp = array([7030, 7270, 7500, 7740, 7020, 6680, 6050])*0.3048                  #altitude in m
 V_ias = array([165, 155, 145, 136, 175, 186, 196])*0.51444444444               #m/s
@@ -37,6 +40,8 @@ total_air_temp = array([-0.2, -1.2, -2.2, -3, 0.2, 1.5, 2.8]) + 273.15         #
 thrust_left = array([2007.77, 2045.94, 2086.33, 2112.19, 1982.68, 1971.24, 1960.71])
 thrust_right = array([2185.43, 2226.46, 2275.74, 2306.23, 2149.08, 2121.65, 2108.01])
 thrust_total = array(thrust_left+thrust_right)
+thrust_standard = array([2786.86, 2899.84, 3018.24, 3126.6, 2699.72, 2575.56, 2442])
+delta_e = array([0, -0.4, -0.8, -1.3, 0.4, 0.7, 1])*(math.pi/180.)
 
 #Weights at start tests
 W_start = []
@@ -97,18 +102,49 @@ for i in range(len(rho)):
 #Dimensionless Thrust Coefficient (Tc)
 thrust_c = []
 for i in range(len(thrust_total)):
-    thrust_c.append(thrust_total[i]/(0.5*rho[i]*V_tas[i]**2*diameter_jet**2))
+    thrust_c.append(thrust_total[i]/(0.5*rho[i]*V_tas[i]**2*diameter_jet**2)) 
+
+#Standard thrust measurements
+
+thrust_cs = []
+for i in range(len(thrust_standard)):
+    thrust_cs.append(thrust_standard[i]/(0.5*rho[i]*V_tas[i]**2*diameter_jet**2))
     
-#Delta_eq Calculation ### GEBRUIK MEASURED DELTA EQ VAN TEST FLIGHT!!!
-delta_eq = -(1/Cmde)*(Cm0+(Cma/Cna)*(W_start[i]/(0.5*rho[i]*V_tas[i]**2*S))+CmTc*thrust_c[i]) 
+#Delta_eq Calculation 
+for i in range(len(thrust_c)):
+    delta_eq = delta_e-(CmTc/Cmde)*(thrust_cs[i]-thrust_c[i])
 
+delta_eqsorted = sort(delta_eq)
+V_esorted = sort(V_e)
 
+plt.plot(V_esorted,delta_eqsorted, 'xr')
+#plt.plot(V_esorted,delta_eqsorted, 'b')
+plt.xlabel('V_e')
+plt.ylabel('delta_eq')
+z = polyfit(V_esorted, delta_eqsorted, 1)
+p = poly1d(z)
+plt.plot(V_esorted,p(V_esorted),"black")
+plt.grid()
+plt.show()
 
-#delta_eq = -(1/Cmde)*(Cm0+Cma(a-a0)+CmTc*Tc)
+stick_force_star = []
+for i in range(len(stick_force)):
+    stick_force_star.append(stick_force[i]*(Ws/W_start[i]))
 
+stick_force_star_sorted = sort(stick_force_star)
 
+plt.plot(V_esorted,stick_force_star_sorted, 'xr')
+#plt.plot(V_esorted,stick_forcesorted, 'b')
+plt.xlabel('V_e')
+plt.ylabel('stick_force')
+z = polyfit(V_esorted, stick_force_star_sorted, 1)
+p = poly1d(z)
+plt.plot(V_esorted,p(V_esorted),"black")
+plt.grid()
+plt.show()
 
-
+print('Trendline coefficients [a,b] for delta_eq = a*V_e+b', polyfit(V_esorted,delta_eqsorted, 1))
+print('Trendline coefficients [a,b] for stick_force = a*V_e+b', polyfit(V_esorted,stick_force_star_sorted, 1))
 
 
 

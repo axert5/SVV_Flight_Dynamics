@@ -4,7 +4,9 @@ Created on Wed Mar  7 11:11:44 2018
 
 @author: xx
 """
-#from Cit_par import *
+from Cit_par_book import *
+from Cit_par_changing import changing_constants
+from WeightBalance import cg
 from numpy import*
 from control.matlab import*
 import matplotlib.pyplot as plt
@@ -15,7 +17,24 @@ warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
 #symmetric case
 
+#begin short period
+hp0     =7000*0.3048
+V0      =188.92*0.51444
+alpha0  =5*pi/180
+th0     =0*pi/180
+fuel_used_LEngine=504.276941303232
+fuel_used_REngine=520.152402665631
+m       =cg(4100-(fuel_used_LEngine+fuel_used_REngine),0)[0]
 
+
+changing_constants=changing_constants(hp0,V0,alpha0,th0,m)
+
+muc = changing_constants[0]
+mub = changing_constants[1]
+CL  = changing_constants[2]
+CD  = changing_constants[3]
+CX0 = changing_constants[4]
+CZ0 = changing_constants[5]
 #------original state space system---------------------------------------
 
 #dimension having
@@ -66,9 +85,9 @@ sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
 #-------------------------------------------------------------------------------
 
 #-------inputs-------------
-t=arange(0,150,0.01)
+t=arange(0,15,0.01)
 
-ude=[-0.005]*len(t) #input vector for elevator deflection
+ude=[-0.012]*len(t) #input vector for elevator deflection
 
 #--which model is selected----------------------------------------------------
 
@@ -110,8 +129,8 @@ print ('Eigenvalues of Phugoid:',eigenvalues_A_sym_dimless[-2:] )
 print()
 
 T12_A_sym_dimless=log(0.5)/real(array(linalg.eig(A_sym_dimless)[0]))
-print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[0])
-print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[2])
+print ('T1/2 of Short Period:',T12_A_sym_dimless[0])
+print ('T1/2 of Phugoid:',T12_A_sym_dimless[2])
 
 print()
 
@@ -140,8 +159,8 @@ plt.title('Input: Elevator Deflection Angle deltael (rad)')
 plt.plot(t,array(ude),color='m',label='i')
 
 plt.subplot(512)
-plt.title('Velocity V (m/s)')
-plt.plot(t,y[0][:,0]+V0,color='c',label='u')
+plt.title('Velocity u (m/s)')
+plt.plot(t,y[0][:,0],color='c',label='u')
 
 plt.subplot(513)
 plt.title('Angle of Attack alpha (rad)')
