@@ -128,8 +128,8 @@ print ('Eigenvalues of Phugoid:',eigenvalues_A_sym_dimless[-2:] )
 print()
 
 T12_A_sym_dimless=log(0.5)/real(array(linalg.eig(A_sym_dimless)[0]))
-print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[0])
-print ('T1/2 of A_sym_dimless:',T12_A_sym_dimless[2])
+print ('T1/2 of Short Period:',T12_A_sym_dimless[0])
+print ('T1/2 of Phugoid:',T12_A_sym_dimless[2])
 
 print()
 
