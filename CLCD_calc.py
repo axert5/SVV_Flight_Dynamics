@@ -162,6 +162,8 @@ for i in range(len(thrust_total)):
     C_D_formula = thrust_total[i]/(0.5*rho[i]*V_tas[i]**2*S)                   #C_D formula
     C_D.append(C_D_formula)                                                    #C_D values for stationary flight data
 
+
+#corrected coefficients
 corrected_C_D = []
 C_D_0 = 0.022
 e = 1/(pi*A*0.043)
