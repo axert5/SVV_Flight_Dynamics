@@ -4,7 +4,7 @@ Created on Wed Mar  7 11:11:44 2018
 
 @author: xx
 """
-from Cit_par import *
+from Cit_par_book import *
 from Cit_par_changing import changing_constants
 from WeightBalance import cg
 from numpy import*
