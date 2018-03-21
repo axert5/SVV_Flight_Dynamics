@@ -13,13 +13,13 @@ th0    = 3*pi/180 #change          # pitch angle in the stationary flight condit
 m      = 60500/9.80665 #change          # mass [kg]
 
 # aerodynamic properties
-e      = 0.8772       # Oswald factor [ ]
-CD0    = 0.0218        # Zero lift drag coefficient [ ]
-CLa    = 4.64       # Slope of CL-alpha curve [ ]
+e      = 0.8 #change        # Oswald factor [ ]
+CD0    = 0.04 #change       # Zero lift drag coefficient [ ]
+CLa    = 5.084#change       # Slope of CL-alpha curve [ ]
 
 # Longitudinal stability
-Cma    = -0.666     # longitudinal stabilty [ ]
-Cmde   = -1.345     # elevator effectiveness [ ]
+Cma    = -0.5626#change     # longitudinal stabilty [ ]
+Cmde   = -1.1642#change     # elevator effectiveness [ ]
 
 # Aircraft geometry
 
@@ -114,4 +114,6 @@ Cnp    =  -0.0602
 Cnr    =  -0.2061
 Cnda   =  -0.0120
 Cndr   =  -0.0939
+
+
 
