@@ -17,6 +17,7 @@ warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
 #symmetric case
 
+#begin short period
 hp0     =7000*0.3048
 V0      =188.92*0.51444
 alpha0  =5*pi/180
