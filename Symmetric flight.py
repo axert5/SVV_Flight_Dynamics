@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
 
 #symmetric case
-
+'''
 #begin short period
 hp0     =7000*0.3048
 V0      =188.92*0.51444
@@ -34,7 +34,7 @@ mub = changing_constants[1]
 CL  = changing_constants[2]
 CD  = changing_constants[3]
 CX0 = changing_constants[4]
-CZ0 = changing_constants[5]
+CZ0 = changing_constants[5]'''
 #------original state space system---------------------------------------
 
 #dimension having
@@ -149,6 +149,11 @@ print()
 natfreq=damp(sys,doprint=False)[0]*sqrt(1-damp(sys,doprint=False)[1]**2)
 print ('Nat. Frequency of Short Period:',natfreq[0])
 print ('Nat. Frequency of Phugoid:',natfreq[2])
+
+print()
+
+print ('Frequency of Short Period:',natfreq[0] / sqrt(1 - damping[0]**2))
+print ('Frequency of Phugoid:',natfreq[2]/ sqrt(1 - damping[2]**2))
 
 print()
 #----------plotting-----------------------------------------------------------

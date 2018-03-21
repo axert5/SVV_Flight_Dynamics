@@ -4,12 +4,12 @@ Program that gives values for each eigenmotion
 """
 
 from Cit_par_book import *
-from Cit_par_changing import changing_constants
+from Cit_par_original import changing_constants
 from EigFuncVer import *
 import numpy as np
 from numpy.linalg import eig
 
-
+'''
 #symmetric case
 
 hp0     =7000*0.3048
@@ -28,7 +28,7 @@ mub = changing_constant[1]
 CL  = changing_constant[2]
 CD  = changing_constant[3]
 CX0 = changing_constant[4]
-CZ0 = changing_constant[5]
+CZ0 = changing_constant[5]'''
 
 """
 print("Dimension-less for short period are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma))
