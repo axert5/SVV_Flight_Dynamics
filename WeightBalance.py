@@ -15,6 +15,8 @@ def cg(Fuel,shift):
     inputs:
     0 Total current fuel mass of the aircraft in [lbs]
     1 cg shift. 0= no shift// 1= shift
+    
+    #total ramp fuel was 4100 lbs   
 
     outputs:
     0 total aircraft mass in [kg]
@@ -82,7 +84,7 @@ def cg(Fuel,shift):
                       10556.84,10843.87,11131.00,11418.20,11705.50,11993.31,12281.18,12569.04,
                       12856.86,13144.73,13432.48,13720.56,14008.46,14320.34])*100
     
-#total ramp fuel was 4100 lbs   
+
     min = 100
     u = 0
     for i in fuelmass:

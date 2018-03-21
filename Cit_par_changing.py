@@ -20,8 +20,8 @@ def changing_constants(hp0,V0,alpha0,th0,m):
     
     muc = changing_constants[0]
     mub = changing_constants[1]
-    CL  = changing constants[2]
-    CD  = changing constants[3]
+    CL  = changing_constants[2]
+    CD  = changing_constants[3]
     CX0 = changing_constants[4]
     CZ0 = changing_constants[5]
     
