@@ -206,6 +206,11 @@ plt.title('C_L^2 vs C_D')
 plt.plot(C_Lsquared,corrected_C_D, 'y')
 plt.xlabel('C_L^2')
 plt.ylabel('C_D')
+<<<<<<< HEAD
+plt.show()
+'''
+  
+=======
 
 plt.subplot(515)
 plt.title('C_D vs alpha')
@@ -218,6 +223,7 @@ plt.show()
  
 
 
+>>>>>>> 3402d9fb1c7a939ddfd89a411fc55cc2616abfd5
 
 
 
