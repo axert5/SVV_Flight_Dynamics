@@ -8,22 +8,36 @@ Created on Wed Mar 14 11:09:57 2018
 import numpy as np
 import matplotlib.pyplot as plt
 #from Symmetric_flight import symmetric
-from control.matlab import *
+#from control.matlab import *
 
 #statespace = symmetric()
 #print (statespace)
 #Cols:
 #Time, Angle of Attack, Mach, TAS, Pitch, Pitch rate, Angle of roll, Roll rate, Yaw rate, Aileron deflection, Elevator deflection, Rudder deflection, altitude
 a = np.loadtxt('flightdata.txt', delimiter = ',', skiprows = 1, usecols = (47,0,39,41,21,26,20,25,27,15,16,17,36,13,14))
+
+i = np.where (a[:,0]==19)[0][0]
+print("Time, Angle of Attack, Mach, TAS, Pitch, Pitch rate, Angle of roll, Roll rate, Yaw rate, Aileron deflection, Elevator deflection, Rudder deflection, altitude")
+print (a[i][:])
+
 a[:,3] *= 0.514444
 a[:,[1,4,5,6,7,8,9,10,11]]*= np.pi/180
 a[:,12] *= 0.3048
 a[:,[13,14]] *= 0.45359237
 
+i = np.where (a[:,0]==19)[0][0]
+print("Time, Angle of Attack, Mach, TAS, Pitch, Pitch rate, Angle of roll, Roll rate, Yaw rate, Aileron deflection, Elevator deflection, Rudder deflection, altitude")
+print (a[i][:])
+
+
+"""
+
+
+
 def Short_period():
     #Short period
     Tshort = 48*60 + 11
-    index = np.where(a[:,0]==Tshort)
+    index = np.where(a[:,0]==Tshort)   
     short = a[index[0][0]:(index[0][0]+(13*10)),:]
     short[:,0] = short[:,0]-short[0,0]
     
@@ -148,4 +162,4 @@ Period = 2 * (abs(b[minimumtime[0][0],0]-(b[maximumtime[0][0],0])))
 #plt.plot(b[:,0],b[:,-3])
 #plt.show()
 
-
+"""

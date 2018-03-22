@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
 
 #symmetric case
-
+'''
 #begin short period
 hp0     =7000*0.3048
 V0      =188.92*0.51444
@@ -34,7 +34,7 @@ mub = changing_constants[1]
 CL  = changing_constants[2]
 CD  = changing_constants[3]
 CX0 = changing_constants[4]
-CZ0 = changing_constants[5]
+CZ0 = changing_constants[5]'''
 #------original state space system---------------------------------------
 
 #dimension having
@@ -87,13 +87,14 @@ sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
 #-------inputs-------------
 t=arange(0,15,0.01)
 
-ude=[-0.005]*len(t) #input vector for elevator deflection
+ude=[-0.012]*len(t) #input vector for elevator deflection
 
+x0=[0,0.01,0,0]
 #--which model is selected----------------------------------------------------
 
 #sys=sys_symmetric           #standard dimension having
-#sys=sys_sym_hybrid          #dimless computation, dim having outputs
-sys=sys_sym_dimless         #dimless outputs
+sys=sys_sym_hybrid          #dimless computation, dim having outputs
+#sys=sys_sym_dimless         #dimless outputs
 #sys=sys_extended            #dimension having, extended for approx. ROC and altitude       
 
 
@@ -101,9 +102,10 @@ sys=sys_sym_dimless         #dimless outputs
 
 
 
-y=lsim(sys,ude,t)   #Using input vector
+#y=lsim(sys,ude,t)   #Using input vector
 #y=impulse(sys,t)                #Impulse input
 #y=step(sys,t)                   #Step input
+y=initial(sys,t,x0)
 
 # y[0][:,0]: u
 # y[0][:,1]: alpha
@@ -116,7 +118,7 @@ y=lsim(sys,ude,t)   #Using input vector
 #-----Matrix analysis--------------------------------------------------------
 
 #--------dimensionless system--------------------------------------------------
-print()
+"""print()
 
 print('Symmetric Flight:')
 
@@ -151,6 +153,11 @@ print ('Nat. Frequency of Short Period:',natfreq[0])
 print ('Nat. Frequency of Phugoid:',natfreq[2])
 
 print()
+
+print ('Frequency of Short Period:',natfreq[0] / sqrt(1 - damping[0]**2))
+print ('Frequency of Phugoid:',natfreq[2]/ sqrt(1 - damping[2]**2))
+
+print()"""
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 

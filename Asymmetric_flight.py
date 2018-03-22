@@ -7,7 +7,7 @@ Created on Wed Mar  7 11:58:57 2018
 """
 #meh
 from numpy import *
-from Cit_par import *
+from Cit_par_book import *
 from control.matlab import *
 import matplotlib.pyplot as plt
 import warnings
@@ -142,6 +142,8 @@ print ('Nat. Frequency:',natfreq)
 
 
 print()
+
+print ('Freq:', natfreq / sqrt(1 - damping**2))
 damp(sys)
 
 
