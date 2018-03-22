@@ -85,54 +85,56 @@ plt.show()
 #plt.show()
 
 
-
-#Dutch roll
-Tdutch = 49*60 + 33
-index = np.where(a[:,0]==Tdutch)
-b = a[index[0][0]:(index[0][0]+(20*10)),:]
-b[:,0] = b[:,0]-b[0,0]
-
-fit = (np.polyfit(b[:,0],b[:,6],1))
-
-#plt.plot(b[:,0],b[:,6])
-#plt.plot(b[:,0],b[:,7])
-#plt.plot(b[:,0],b[:,8])
-#plt.show()
-#plt.plot(b[:,0],b[:,-1])
-#plt.show()
-
-maximumtime = np.where(b[62:,7]==max(b[62:,7]))
-minimumtime = np.where(b[62:,7]==min(b[62:,7]))
-#print (np.where(np.logical_and(b[:,7]>=-0.4, b[:,7]<=0.4)))
-np.where(np.logical_and(b[:,7]>=-0.5, b[:,7]<=0.5))
-#print (maximum, minimum)
-average = np.average(b[62:,7])
-
-maximum = max(b[62:,7])
-minimum = min(b[62:,7])
-differencefactor = abs(maximum-average)/abs(minimum-average)
-if differencefactor > 1:
-    differencefactor = 1/differencefactor
-differencetime = abs(minimumtime[0][0]-maximumtime[0][0])/10
-coefficient = np.log(differencefactor)/(differencetime)
-halftime = np.log(0.5)/coefficient
-#print (halftime)
-
-Period = 2 * (abs(b[minimumtime[0][0],0]-(b[maximumtime[0][0],0])))
+def Dutch_roll():
+    #Dutch roll
+    Tdutch = 49*60 + 33
+    index = np.where(a[:,0]==Tdutch)
+    b = a[index[0][0]:(index[0][0]+(20*10)),:]
+    b[:,0] = b[:,0]-b[0,0]
+    
+    #fit = (np.polyfit(b[:,0],b[:,6],1))
+    
+    #plt.plot(b[:,0],b[:,6])
+    #plt.plot(b[:,0],b[:,7])
+    #plt.plot(b[:,0],b[:,8])
+    #plt.show()
+    #plt.plot(b[:,0],b[:,-1])
+    #plt.show()
+    
+    maximumtime = np.where(b[62:,7]==max(b[62:,7]))
+    minimumtime = np.where(b[62:,7]==min(b[62:,7]))
+    #print (np.where(np.logical_and(b[:,7]>=-0.4, b[:,7]<=0.4)))
+    np.where(np.logical_and(b[:,7]>=-0.5, b[:,7]<=0.5))
+    #print (maximum, minimum)
+    average = np.average(b[62:,7])
+    
+    maximum = max(b[62:,7])
+    minimum = min(b[62:,7])
+    differencefactor = abs(maximum-average)/abs(minimum-average)
+    if differencefactor > 1:
+        differencefactor = 1/differencefactor
+    differencetime = abs(minimumtime[0][0]-maximumtime[0][0])/10
+    coefficient = np.log(differencefactor)/(differencetime)
+    halftime = np.log(0.5)/coefficient
+    #print (halftime)
+    
+    Period = 2 * (abs(b[minimumtime[0][0],0]-(b[maximumtime[0][0],0])))
+    return b[:,0], b[:,3], b[:,6], b[:,7], b[:,8], b[:,9], b[:,11], b[:,12], b[:,13], b[:,14]
 #print (Period)
 
-#Aperiodic roll
-#Taperiodic= 51*60 + 30
-#index = np.where(a[:,0]==Taperiodic)
-#b = a[index[0][0]:(index[0][0]+(40*10)),:]
-#b[:,0] = b[:,0]-b[0,0]
-#
-#plt.plot(b[:,0],b[:,6])
-#plt.plot(b[:,0],b[:,7])
-#plt.plot(b[:,0],b[:,8])
-#plt.show()
-#plt.plot(b[:,0],b[:,-3])
-#plt.show()
+def Aperiodic_roll():
+    Taperiodic= 51*60 + 30
+    index = np.where(a[:,0]==Taperiodic)
+    b = a[index[0][0]:(index[0][0]+(40*10)),:]
+    b[:,0] = b[:,0]-b[0,0]
+    
+#    plt.plot(b[:,0],b[:,6])
+#    plt.plot(b[:,0],b[:,7])
+#    plt.plot(b[:,0],b[:,8])
+#    plt.show()
+#    plt.plot(b[:,0],b[:,-3])
+#    plt.show()
+    return b[:,0], b[:,3], b[:,6], b[:,7], b[:,8], b[:,9], b[:,11], b[:,12], b[:,13], b[:,14]
 
 #Spiral
 #Tspiral= 57*60 + 15
