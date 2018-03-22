@@ -52,8 +52,18 @@ plt.plot(Time_phugoid, Delta_e_phugoid)
 plt.show()
 
 mean_error = 1
-while mean_error>0.15:
-    
+while mean_error>0.07:
+    Cmq = -6.883763192281982
+    CZa = -5.832135330383927
+    Cmadot = 0.12562411402000406
+    CXu = -0.08398281071513852
+    CXa = -0.03791622710921949
+    CXq = -0.32156918147980135
+    CZu = -0.4952377795039064
+    CZadot = -0.007044212992164751
+    CZq = -5.260621517613082
+    Cmu = 0.07180053938491007
+    '''
     Cmq = random.uniform(0,-10)
     #Cmq = -4.753937622784239
     CZa = random.uniform(-6,-3)
@@ -70,7 +80,7 @@ while mean_error>0.15:
     #CZq = -5.628213819440996
     Cmu = random.uniform(-0.1,0.1)
     #Cmu = 0.07653270911602936
-    
+    '''
     C1_symmetric=matrix([[-2*mucs*c/(V0s**2) ,0, 0 ,0],[0,(CZadot-2*mucs)*c/V0s,0,0],[0,0,-c/V0s,0],[0,Cmadot*c/V0s,0,-2*mucs*KY2*c**2/V0s**2]])
     C2_symmetric=matrix([[CXu/V0s,CXa,CZ0s,CXq*c/V0s],[CZu/V0s,CZa,-CX0s,(CZq+2*mucs)*c/V0s],[0,0,0,c/V0s],[Cmu/V0s,Cma,0,Cmq*c/V0s]])
     C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
