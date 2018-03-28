@@ -187,5 +187,17 @@ def phugoid_damp(muc , CXu , CZu , CZ0):
     Eig2 = (-B - j * np.sqrt(4*A*C - B**2)) / 2 / A
     
     return Eig1 , Eig2 , A , B , C
+
+def spiral(CL, Clb , Cnr , Cnb , Clr , Clp , CYb, Cnp , mub):
+    
+    Eig = (2*CL * (Clb * Cnr - Cnb * Clr)) / (Clp * (CYb * Cnr + 4 * mub * Cnb) - Cnp * (CYb * Clr + 4 * mub * Clb))
+    
+    return Eig
+
+def aperiodic_roll(Clp , mub , KX2):
+    
+    Eig = Clp/(4 * mub * KX2)
+    
+    return Eig
     
     

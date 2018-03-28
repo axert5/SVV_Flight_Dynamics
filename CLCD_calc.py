@@ -172,6 +172,14 @@ for i in range(len(C_Lsquared)):
     corrected_C_D_formula = C_D_0 + C_Lsquared[i]/(pi*e*A)                 #C_D formula
     corrected_C_D.append(corrected_C_D_formula)                                                    #C_D values for stationary flight data
 
+#Reynolds number
+Re = []
+mu = 0.000017217
+bar_c = 2.0569
+
+for i in range(len(rho)):
+    Re.append(rho[i]*V_tas[i]*bar_c/mu)
+
 ### Alpha values 
 
 alpha_rad = array([0.02792526803, 0.04188790205, 0.06108652382, 0.09424777961, 0.1291543646, 0.193731547])
