@@ -38,8 +38,14 @@ CZ0 = changing_constants[5]'''
 #------original state space system---------------------------------------
 
 #dimension having
-C1_symmetric=matrix([[-2*muc*c/(V0**2) ,0, 0 ,0],[0,(CZadot-2*muc)*c/V0,0,0],[0,0,-c/V0,0],[0,Cmadot*c/V0,0,-2*muc*KY2*c**2/V0**2]])
-C2_symmetric=matrix([[CXu/V0,CXa,CZ0,CXq*c/V0],[CZu/V0,CZa,-CX0,(CZq+2*muc)*c/V0],[0,0,0,c/V0],[Cmu/V0,Cma,0,Cmq*c/V0]])
+C1_symmetric=matrix([[-2*muc*c/(V0**2) ,0, 0 ,0],
+					[0,(CZadot-2*muc)*c/V0,0,0],
+					[0,0,-c/V0,0],
+					[0,Cmadot*c/V0,0,-2*muc*KY2*c**2/V0**2]])
+C2_symmetric=matrix([[CXu/V0,CXa,CZ0,CXq*c/V0],
+					[CZu/V0,CZa,-CX0,(CZq+2*muc)*c/V0],
+					[0,0,0,c/V0],
+					[Cmu/V0,Cma,0,Cmq*c/V0]])
 C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
 
 
@@ -51,8 +57,14 @@ D_symmetric=zeros((4,1))
 sys_symmetric=ss(A_symmetric,B_symmetric,C_symmetric,D_symmetric)
 
 #dimensionless
-C1_sym_dimless=matrix([[-2*muc*c/V0,0,0,0],[0,(CZadot-2*muc)*c/V0,0,0],[0,0,-c/V0,0],[0,Cmadot*c/V0,0,-2*muc*KY2*c/V0]])
-C2_sym_dimless=matrix([[CXu,CXa,CZ0,CXq],[CZu,CZa,CX0,(CZq+2*muc)],[0,0,0,1],[Cmu,Cma,0,Cmq]])
+C1_sym_dimless=matrix([[-2*muc*c/V0,0,0,0],
+						[0,(CZadot-2*muc)*c/V0,0,0],
+						[0,0,-c/V0,0],
+						[0,Cmadot*c/V0,0,-2*muc*KY2*c/V0]])
+C2_sym_dimless=matrix([[CXu,CXa,CZ0,CXq],
+						[CZu,CZa,CX0,(CZq+2*muc)],
+						[0,0,0,1],
+						[Cmu,Cma,0,Cmq]])
 C3_sym_dimless=matrix([[CXde],[CZde],[0],[Cmde]])
 
 A_sym_dimless=linalg.inv(-C1_sym_dimless)*C2_sym_dimless
@@ -75,7 +87,12 @@ a_sym_dimless=vstack((hstack((temp_a, temp_b)),temp_c))
 temp_d=B_sym_dimless
 temp_e=matrix([[0]])
 b_sym_dimless=vstack(((temp_d),temp_e))
-c_sym_dimless=matrix([[V0,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,V0/c,0],[0,0,0,0,1],[0,-V0,V0,0,0]])
+c_sym_dimless=matrix([[V0,0,0,0,0],
+					[0,1,0,0,0],
+					[0,0,1,0,0],
+					[0,0,0,V0/c,0],
+					[0,0,0,0,1],
+					[0,-V0,V0,0,0]])
 d_sym_dimless=zeros((6,1))
 
 sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
@@ -118,7 +135,7 @@ y=initial(sys,t,x0)
 #-----Matrix analysis--------------------------------------------------------
 
 #--------dimensionless system--------------------------------------------------
-"""print()
+print()
 
 print('Symmetric Flight:')
 
@@ -157,7 +174,7 @@ print()
 print ('Frequency of Short Period:',natfreq[0] / sqrt(1 - damping[0]**2))
 print ('Frequency of Phugoid:',natfreq[2]/ sqrt(1 - damping[2]**2))
 
-print()"""
+print()
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 

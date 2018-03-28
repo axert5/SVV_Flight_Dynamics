@@ -51,115 +51,113 @@ plt.figure()
 plt.plot(Time_phugoid, Delta_e_phugoid)
 plt.show()
 
-#mean_error = 1
-#while mean_error>0.0585:
-CXa =  0
-CZa =  -5.99
-CXu =  -0.0894
-CZu =  -0.574
- 
+mean_error = 1
+while mean_error>0.20:
+    print (CXa, CXu, CZu)
+    CXa =  0
+    CXu =  -0.08351034367559787
+    CZu =  -0.5811534316907063
+     
+    
+    #CZa = random.uniform(-8,-4)
+    
+    #CXu = random.uniform(-0.2,-0.0)
+    
+    #CZu = random.uniform(-0.7,-0.3)
+    
+    #CXa = random.uniform(-1,0)
+    
+    
+    #Cmadot = random.uniform(-0.5,0.5)
+    #CXq = random.uniform(-0.4,-0.2)
+    #CZadot = random.uniform(-0.01,0)
+    #CZq = random.uniform(-6,-4)
+    ##Cmu = random.uniform(-0.1,0.1)
+    
+    
+    
+    
+    C1_symmetric=matrix([[-2*mucs*c/(V0s**2) ,0, 0 ,0],[0,(CZadot-2*mucs)*c/V0s,0,0],[0,0,-c/V0s,0],[0,Cmadot*c/V0s,0,-2*mucs*KY2*c**2/V0s**2]])
+    C2_symmetric=matrix([[CXu/V0s,CXa,CZ0s,CXq*c/V0s],[CZu/V0s,CZa,-CX0s,(CZq+2*mucs)*c/V0s],[0,0,0,c/V0s],[Cmu/V0s,Cma,0,Cmq*c/V0s]])
+    C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
+    
+    
+    A_symmetric=linalg.inv(-C1_symmetric)*C2_symmetric
+    B_symmetric=linalg.inv(-C1_symmetric)*C3_symmetric
+    C_symmetric=identity(4)
+    D_symmetric=zeros((4,1))
+    
+    sys_symmetric=ss(A_symmetric,B_symmetric,C_symmetric,D_symmetric)
+    
+    ys = lsim(sys_symmetric, Delta_e_short, Time_short)
+    
+    Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,0]-TAS_short)**2))
+    Relative_error_TASs = Error/(max(TAS_short)-min(TAS_short))
+    #print ('TAS =',Relative_error_TAS)
+    
+    Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,1]-AoA_short)**2))
+    Relative_error_AoAs = Error/(max(AoA_short)-min(AoA_short))
+    #print ('AoA =',Relative_error_AoA)
+    
+    Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,2]-Pitch_short)**2))
+    Relative_error_Pitchs = Error/(max(Pitch_short)-min(Pitch_short))
+    #print ('Pitch =',Relative_error_Pitch)
+    
+    Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,3]-Pitch_rate_short)**2))
+    Relative_error_Pitch_rates = Error/(max(Pitch_rate_short)-min(Pitch_rate_short))
+    #print ('Pitch rate =',Relative_error_Pitch_rate)
+    
+    #Total average error
+    Total_errors = Relative_error_TASs + Relative_error_AoAs + Relative_error_Pitchs + Relative_error_Pitch_rates
+    mean_errors = Total_errors/4
+    
+    #plt.figure()
+    #plt.plot(Time_short, Delta_e_short)
+    #plt.show()
+    
+    #print (Altitude_phugoid[0], TAS_phugoid[0], AoA_phugoid[0], Pitch_phugoid[0],(mass_start-Fuel_left_phugoid[0]-Fuel_right_phugoid[0]))
+    #Initial Phugoid
+    
+    
+    
+    
+    C1_symmetric=matrix([[-2*mucp*c/(V0p**2) ,0, 0 ,0],[0,(CZadot-2*mucp)*c/V0p,0,0],[0,0,-c/V0p,0],[0,Cmadot*c/V0p,0,-2*mucp*KY2*c**2/V0p**2]])
+    C2_symmetric=matrix([[CXu/V0p,CXa,CZ0p,CXq*c/V0p],[CZu/V0p,CZa,-CX0p,(CZq+2*mucp)*c/V0p],[0,0,0,c/V0p],[Cmu/V0p,Cma,0,Cmq*c/V0p]])
+    C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
+    
+    
+    A_symmetric=linalg.inv(-C1_symmetric)*C2_symmetric
+    B_symmetric=linalg.inv(-C1_symmetric)*C3_symmetric
+    C_symmetric=identity(4)
+    D_symmetric=zeros((4,1))
+    
+    sys_symmetric=ss(A_symmetric,B_symmetric,C_symmetric,D_symmetric)
+    
+    yp = lsim(sys_symmetric, Delta_e_phugoid, Time_phugoid)
+    
+    Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,0]-TAS_phugoid)**2))
+    Relative_error_TASp = Error/(max(TAS_phugoid)-min(TAS_phugoid))
+    #print ('TAS =',Relative_error_TAS)
+    
+    Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,1]-AoA_phugoid)**2))
+    Relative_error_AoAp = Error/(max(AoA_phugoid)-min(AoA_phugoid))
+    #print ('AoA =',Relative_error_AoA)
+    
+    Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,2]-Pitch_phugoid)**2))
+    Relative_error_Pitchp = Error/(max(Pitch_phugoid)-min(Pitch_phugoid))
+    #print ('Pitch =',Relative_error_Pitch)
+    
+    Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,3]-Pitch_rate_phugoid)**2))
+    Relative_error_Pitch_ratep = Error/(max(Pitch_rate_phugoid)-min(Pitch_rate_phugoid))
+    #print ('Pitch rate =',Relative_error_Pitch_rate)
+    
+    #Total average error
+    Total_errorp = Relative_error_TASp + Relative_error_Pitchp + Relative_error_Pitch_ratep
+    mean_errorp = Total_errorp/3
+    
+    mean_error = (mean_errors+mean_errorp)/2
 
-#CZa = random.uniform(-7,-5)
 
-#CXu = random.uniform(-0.1,-0.0)
-
-#CZu = random.uniform(-0.7,-0.3)
-
-#CXa = random.uniform(-1,0)
-
-
-#Cmadot = random.uniform(-0.5,0.5)
-#CXq = random.uniform(-0.4,-0.2)
-#CZadot = random.uniform(-0.01,0)
-#CZq = random.uniform(-6,-4)
-##Cmu = random.uniform(-0.1,0.1)
-
-
-
-
-C1_symmetric=matrix([[-2*mucs*c/(V0s**2) ,0, 0 ,0],[0,(CZadot-2*mucs)*c/V0s,0,0],[0,0,-c/V0s,0],[0,Cmadot*c/V0s,0,-2*mucs*KY2*c**2/V0s**2]])
-C2_symmetric=matrix([[CXu/V0s,CXa,CZ0s,CXq*c/V0s],[CZu/V0s,CZa,-CX0s,(CZq+2*mucs)*c/V0s],[0,0,0,c/V0s],[Cmu/V0s,Cma,0,Cmq*c/V0s]])
-C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
-
-
-A_symmetric=linalg.inv(-C1_symmetric)*C2_symmetric
-B_symmetric=linalg.inv(-C1_symmetric)*C3_symmetric
-C_symmetric=identity(4)
-D_symmetric=zeros((4,1))
-
-sys_symmetric=ss(A_symmetric,B_symmetric,C_symmetric,D_symmetric)
-
-ys = lsim(sys_symmetric, Delta_e_short, Time_short)
-
-Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,0]-TAS_short)**2))
-Relative_error_TASs = Error/(max(TAS_short)-min(TAS_short))
-#print ('TAS =',Relative_error_TAS)
-
-Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,1]-AoA_short)**2))
-Relative_error_AoAs = Error/(max(AoA_short)-min(AoA_short))
-#print ('AoA =',Relative_error_AoA)
-
-Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,2]-Pitch_short)**2))
-Relative_error_Pitchs = Error/(max(Pitch_short)-min(Pitch_short))
-#print ('Pitch =',Relative_error_Pitch)
-
-Error = sqrt((1/len(Pitch_rate_short))*sum((ys[0][:,3]-Pitch_rate_short)**2))
-Relative_error_Pitch_rates = Error/(max(Pitch_rate_short)-min(Pitch_rate_short))
-#print ('Pitch rate =',Relative_error_Pitch_rate)
-
-#Total average error
-Total_errors = Relative_error_TASs + Relative_error_AoAs + Relative_error_Pitchs + Relative_error_Pitch_rates
-mean_errors = Total_errors/4
-
-#plt.figure()
-#plt.plot(Time_short, Delta_e_short)
-#plt.show()
-
-#print (Altitude_phugoid[0], TAS_phugoid[0], AoA_phugoid[0], Pitch_phugoid[0],(mass_start-Fuel_left_phugoid[0]-Fuel_right_phugoid[0]))
-#Initial Phugoid
-
-
-
-
-C1_symmetric=matrix([[-2*mucp*c/(V0p**2) ,0, 0 ,0],[0,(CZadot-2*mucp)*c/V0p,0,0],[0,0,-c/V0p,0],[0,Cmadot*c/V0p,0,-2*mucp*KY2*c**2/V0p**2]])
-C2_symmetric=matrix([[CXu/V0p,CXa,CZ0p,CXq*c/V0p],[CZu/V0p,CZa,-CX0p,(CZq+2*mucp)*c/V0p],[0,0,0,c/V0p],[Cmu/V0p,Cma,0,Cmq*c/V0p]])
-C3_symmetric=matrix([[CXde],[CZde],[0],[Cmde]])
-
-
-A_symmetric=linalg.inv(-C1_symmetric)*C2_symmetric
-B_symmetric=linalg.inv(-C1_symmetric)*C3_symmetric
-C_symmetric=identity(4)
-D_symmetric=zeros((4,1))
-
-sys_symmetric=ss(A_symmetric,B_symmetric,C_symmetric,D_symmetric)
-
-yp = lsim(sys_symmetric, Delta_e_phugoid, Time_phugoid)
-
-Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,0]-TAS_phugoid)**2))
-Relative_error_TASp = Error/(max(TAS_phugoid)-min(TAS_phugoid))
-#print ('TAS =',Relative_error_TAS)
-
-Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,1]-AoA_phugoid)**2))
-Relative_error_AoAp = Error/(max(AoA_phugoid)-min(AoA_phugoid))
-#print ('AoA =',Relative_error_AoA)
-
-Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,2]-Pitch_phugoid)**2))
-Relative_error_Pitchp = Error/(max(Pitch_phugoid)-min(Pitch_phugoid))
-#print ('Pitch =',Relative_error_Pitch)
-
-Error = sqrt((1/len(Pitch_rate_phugoid))*sum((yp[0][:,3]-Pitch_rate_phugoid)**2))
-Relative_error_Pitch_ratep = Error/(max(Pitch_rate_phugoid)-min(Pitch_rate_phugoid))
-#print ('Pitch rate =',Relative_error_Pitch_rate)
-
-#Total average error
-Total_errorp = Relative_error_TASp + Relative_error_Pitchp + Relative_error_Pitch_ratep
-mean_errorp = Total_errorp/3
-
-mean_error = (mean_errors+mean_errorp)/2
-
-if mean_error<imean_error:
-    x = [CZa , CXu , CZu, mean_error]
-    imean_error = mean_error
 #for i in range(10000):
 #    Cmq = random.uniform(0,-20)
 #    CZa = random.uniform(-5,-0)
@@ -243,46 +241,69 @@ print ('CXa = ' , CXa)
 print ('CZa = ' , CZa)
 print ('CXu = ' , CXu)
 print ('CZu = ' , CZu)
-plt.figure('Short Period')
-plt.subplot(221)
-plt.plot(Time_short, TAS_short)
-plt.plot(Time_short,ys[0][:,0])
 
+plt.figure('Short Period')
+plt.title("Short period motion")
+
+plt.subplot(221)
+plt.plot(Time_short, TAS_short, label = "Test data")
+plt.plot(Time_short,ys[0][:,0], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("True air speed change [m\s]")
+plt.legend()
 
 plt.subplot(222)
-plt.plot(Time_short, AoA_short)
-plt.plot(Time_short,ys[0][:,1])
-
+plt.plot(Time_short, AoA_short, label = "Test data")
+plt.plot(Time_short,ys[0][:,1], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("Angle of attack [rad]")
+plt.legend()
 
 plt.subplot(223)
-plt.plot(Time_short, Pitch_short)
-plt.plot(Time_short,ys[0][:,2])
-
+plt.plot(Time_short, Pitch_short, label = "Test data")
+plt.plot(Time_short,ys[0][:,2], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("Pitch angle [rad]")
+plt.legend()
 
 plt.subplot(224)
-plt.plot(Time_short, Pitch_rate_short)
-plt.plot(Time_short,ys[0][:,3])
+plt.plot(Time_short, Pitch_rate_short, label = "Test data")
+plt.plot(Time_short,ys[0][:,3], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("Pitch rate [rad/s]")
+plt.legend()
 plt.show()
     
 plt.figure('Phugoid')
-plt.subplot(221)
-plt.plot(Time_phugoid, TAS_phugoid)
-plt.plot(Time_phugoid,yp[0][:,0])
+plt.title("Phugoid motion")
 
+plt.subplot(221)
+plt.plot(Time_phugoid, TAS_phugoid, label = "Test data")
+plt.plot(Time_phugoid,yp[0][:,0], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("True air speed change [m\s]")
+plt.legend()
 
 plt.subplot(222)
-plt.plot(Time_phugoid, AoA_phugoid)
-plt.plot(Time_phugoid,yp[0][:,1])
-
+plt.plot(Time_phugoid, AoA_phugoid, label = "Test data")
+plt.plot(Time_phugoid,yp[0][:,1], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("Angle of attack [rad]")
+plt.legend()
 
 plt.subplot(223)
-plt.plot(Time_phugoid, Pitch_phugoid)
-plt.plot(Time_phugoid,yp[0][:,2])
-
+plt.plot(Time_phugoid, Pitch_phugoid, label = "Test data")
+plt.plot(Time_phugoid,yp[0][:,2], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("Pitch angle [rad]")
+plt.legend()
 
 plt.subplot(224)
-plt.plot(Time_phugoid, Pitch_rate_phugoid)
-plt.plot(Time_phugoid,yp[0][:,3])
+plt.plot(Time_phugoid, Pitch_rate_phugoid, label = "Test data")
+plt.plot(Time_phugoid,yp[0][:,3], label = "Simulated")
+plt.xlabel("Time[s]")
+plt.ylabel("Pitch rate [rad/s]")
+plt.legend()
 plt.show()
 
 ##Relative Root Mean Square Error
@@ -305,4 +326,4 @@ plt.show()
 ##Total average error
 #Total_error = Relative_error_TAS + Relative_error_AoA + Relative_error_Pitch + Relative_error_Pitch_rate
 #Mean_error = Total_error/4
-#print ('Mean total error =', Mean_error)
+#print ('Mean total error =', Mean_error)'''
