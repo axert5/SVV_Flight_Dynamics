@@ -5,7 +5,7 @@ Created on Wed Mar  7 11:11:44 2018
 @author: xx
 """
 from Cit_par import *
-from Cit_par_changing import changing_constants
+#from Cit_par_changing import changing_constants
 from WeightBalance import cg
 from numpy import*
 from control.matlab import*
@@ -14,9 +14,7 @@ import warnings
 import matplotlib.cbook
 warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
-
-#symmetric case
-'''
+"""
 #begin short period
 hp0     =7000*0.3048
 V0      =188.92*0.51444
@@ -34,7 +32,10 @@ mub = changing_constants[1]
 CL  = changing_constants[2]
 CD  = changing_constants[3]
 CX0 = changing_constants[4]
-CZ0 = changing_constants[5]'''
+CZ0 = changing_constants[5]"""
+#symmetric case
+
+
 #------original state space system---------------------------------------
 
 #dimension having
@@ -102,12 +103,13 @@ sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
 #-------------------------------------------------------------------------------
 
 #-------inputs-------------
-t=arange(0,15,0.01)
+t=arange(0,150,0.01)
 
-ude=[-0.012]*len(t) #input vector for elevator deflection
+ude=[0]*len(t) #input vector for elevator deflection
 
 x0=[0,0.01,0,0]
 #--which model is selected----------------------------------------------------
+
 
 #sys=sys_symmetric           #standard dimension having
 sys=sys_sym_hybrid          #dimless computation, dim having outputs
@@ -117,12 +119,14 @@ sys=sys_sym_hybrid          #dimless computation, dim having outputs
 
 #--what Input is selected------------------------------------------------------
 
+x0=matrix([[0],[0.1],[0],[0]])
 
 
-#y=lsim(sys,ude,t)   #Using input vector
+y=lsim(sys,ude,t)   #Using input vector
+
 #y=impulse(sys,t)                #Impulse input
 #y=step(sys,t)                   #Step input
-y=initial(sys,t,x0)
+#y=initial(sys,t,x0)
 
 # y[0][:,0]: u
 # y[0][:,1]: alpha
@@ -145,6 +149,9 @@ eigenvalues_A_sym_dimless=linalg.eig(A_sym_dimless)[0]
 print ('Eigenvalues of Short Period:',eigenvalues_A_sym_dimless[:-2] )
 print ('Eigenvalues of Phugoid:',eigenvalues_A_sym_dimless[-2:] )
 
+eigenvalues_A_sym=linalg.eig(A_symmetric)[0]
+print ('Eigenvalues of Short Period:',eigenvalues_A_sym[:-2] )
+print ('Eigenvalues of Phugoid:',eigenvalues_A_sym[-2:] )
 print()
 
 T12_A_sym_dimless=log(0.5)/real(array(linalg.eig(A_sym_dimless)[0]))
@@ -178,23 +185,24 @@ print()
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 
-plt.subplot(511)
-plt.title('Input: Elevator Deflection Angle deltael (rad)')
-plt.plot(t,array(ude),color='m',label='i')
+#plt.subplot(321)
+#plt.title('Input in Elevator (rad)')
+#plt.plot(t,array(ude),color='m',label='i')
 
-plt.subplot(512)
+
+plt.subplot(321)
 plt.title('Velocity V (m/s)')
 plt.plot(t,y[0][:,0]+V0,color='c',label='u')
 
-plt.subplot(513)
+plt.subplot(322)
 plt.title('Angle of Attack alpha (rad)')
 plt.plot(t,y[0][:,1], color='r', label='alpha')
 
-plt.subplot(514)
-plt.title('Fligth Path Angle theta (rad)')
+plt.subplot(323)
+plt.title('Flight Path Angle theta (rad)')
 plt.plot(t,y[0][:,2],color='b',label='theta')
 
-plt.subplot(515)
+plt.subplot(324)
 plt.title('Pitch Rate q (rad/s)')
 plt.plot(t,y[0][:,3],color='g',label='q')
 """
