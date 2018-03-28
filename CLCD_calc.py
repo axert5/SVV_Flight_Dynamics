@@ -125,7 +125,7 @@ for i in range(len(M)):
     Tc1 = total_temp_stationary[i]/(1+((gamma-1)/2)*M[i]**2)
     Temp_c.append(Tc1)
 
-#Angle of attack
+#Speed of sound
 aoa = []
 for i in range(len(M)):
     aoa1 = sqrt(gamma*R*Temp_c[i])
