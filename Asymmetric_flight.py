@@ -8,12 +8,32 @@ Created on Wed Mar  7 11:58:57 2018
 #meh
 from numpy import *
 from Cit_par import *
+#from Cit_par_changing import changing_constants
+from WeightBalance import cg
 from control.matlab import *
 import matplotlib.pyplot as plt
 import warnings
 import matplotlib.cbook
 warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
+"""
+hp0     =7000*0.3048
+V0      =188.92*0.51444
+alpha0  =5*pi/180
+th0     =0*pi/180
+fuel_used_LEngine=504.276941303232
+fuel_used_REngine=520.152402665631
+m       =cg(4100-(fuel_used_LEngine+fuel_used_REngine),0)[0]
+
+
+changing_constants=changing_constants(hp0,V0,alpha0,th0,m)
+
+muc = changing_constants[0]
+mub = changing_constants[1]
+CL  = changing_constants[2]
+CD  = changing_constants[3]
+CX0 = changing_constants[4]
+CZ0 = changing_constants[5]"""
 
 #Asymmetrical case
 
@@ -68,6 +88,7 @@ C_asym_dimless=identity(4)
 C_asym_hybrid = matrix([[1,0,0,0],[0,1,0,0],[0,0,2*V0/b,0],[0,0,0,2*V0/b]])
 D_asym_dimless = zeros((4,2))
 
+
 #true dimensionless output
 sys_asym_dimless=ss(A_asym_dimless,B_asym_dimless,C_asym_dimless,D_asym_dimless)
 
@@ -80,28 +101,29 @@ sys_hybrid=ss(A_asym_dimless, B_asym_dimless,C_asym_hybrid,D_asym_dimless)
 
 #-------inputs-------------
 
-simlength=15 #[s]
+simlength=100 #[s]
 
 timestep=0.01 #[s]
 
 t=arange(0,simlength,timestep)
 
-uda=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep)) #input vector for aileron deflection
-#uda=[0]*len(t)              
+#uda=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep)) #input vector for aileron deflection
+uda=[0.001]*len(t)              
 udr=[0]*len(t) 
 #udr=[0.025]*int(1/timestep)+[0]*(len(t)-int(1/timestep))#input vector for rudder deflection
 u=vstack((uda,udr)).T       #input vector to model
 
+x0=matrix([[0],[0.1],[0],[0]])
+
 #--which model is selected----------------------------------------------------
 
-#sys=sys_asymmetric          #standard dimension having
-sys=sys_hybrid              #dimless computation, dim having outputs
+sys=sys_asymmetric          #standard dimension having
+#sys=sys_hybrid              #dimless computation, dim having outputs
 #sys=sys_asym_dimless        #dimless outputs
-
 
 #--what Input is selected------------------------------------------------------
 
-y=lsim(sys,u,t)                     #Using input vector
+y=initial(sys,t,x0)                     #Using input vector
 #y=impulse(sys,t,input=0)            #Impulse input: 0=aileron // 1= rudder
 #y=step(sys,t,input=0)               #Step input: 0=aileron // 1= rudder
 
@@ -117,6 +139,9 @@ print()
 
 eigenvalues_A_asym_dimless=linalg.eig(A_asym_dimless)[0]
 print ('Eigenvalues:',eigenvalues_A_asym_dimless)
+
+eigenvalues_A_asym=linalg.eig(A_asymmetric)[0]
+print ('Eigenvalues:',eigenvalues_A_asym)
 
 print()
 
@@ -139,37 +164,40 @@ print()
 
 natfreq=damp(sys,doprint=False)[0]*sqrt(1-damp(sys,doprint=False)[1]**2)
 print ('Nat. Frequency:',natfreq)
+w0=sqrt(real(array(linalg.eig(A_asym_dimless)[0]))**2+imag(array(linalg.eig(A_asym_dimless)[0])))*c/V0
+wn=w0*sqrt(1-damp(sys,doprint=False)[1]**2)
+print(wn)
 
-
-print()
-damp(sys)
 
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 
-plt.subplot(611)
+#plt.subplot(322)
+#plt.title('Input in Rudder (rad)')
+#plt.plot(t,udr,color='y',label='dr')
+
+#plt.subplot(321)
+#plt.title('Input in Aileron (rad)')
+#plt.plot(t,uda,color='k',label='da')
+
+plt.subplot(321)
 plt.title('Sideslip Angle beta (rad)')
 plt.plot(t,y[0][:,0],color='c',label='beta')
 
-plt.subplot(612)
+plt.subplot(322)
 plt.title('Roll Angle phi (rad)')
 plt.plot(t,y[0][:,1], color='r', label='phi')
 
-plt.subplot(613)
+plt.subplot(324)
 plt.title('Roll Rate p (rad/s)')
 plt.plot(t,y[0][:,2],color='b',label='q')
 
-plt.subplot(614)
+plt.subplot(323)
 plt.title('Yaw Rate r (rad/s)')
 plt.plot(t,y[0][:,3],color='g',label='r')
 
-plt.subplot(615)
-plt.title('input in rudder')
-plt.plot(t,udr,color='y',label='dr')
 
-plt.subplot(616)
-plt.title('input in aileron')
-plt.plot(t,uda,color='k',label='da')
 
-#plt.show()
+#plt.legend()
+plt.show()
