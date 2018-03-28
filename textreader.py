@@ -9,15 +9,19 @@ import numpy as np
 text_file=open("flightdata.txt","r")
 
 line=np.loadtxt("flightdata.txt",delimiter=',',skiprows=1)
+
 text_file.close()
+
+
 
 begin_manoeuver=3497.0
 position= where(line[:,47] == begin_manoeuver)[0]
-#print (position)
+print (position)
 print(line[:,13][34880])
 print (line[:,14][34880])
 
 print (line[:,41][34885])
+
 """
 entry=entry_value-entry_vane_AOA
 timestep=0.1s

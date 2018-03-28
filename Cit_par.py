@@ -1,16 +1,16 @@
 # Citation 550 - Linear simulation
 # xcg = 0.25 * c
 from numpy import*
-
+from WeightBalance import cg
 # Stationary flight condition
 
-hp0    = 7000 * 0.3048 #change   	      # pressure altitude in the stationary flight condition [m]
-V0     = 178* 0.5144444 #change               # true airspeed in the stationary flight condition [m/sec]
-alpha0 = 5*pi/180 #change          # angle of attack in the stationary flight condition [rad]
-th0    = 3*pi/180 #change          # pitch angle in the stationary flight condition [rad]
+hp0    = 2045 #change   	      # pressure altitude in the stationary flight condition [m]
+V0     = 91.999 #change               # true airspeed in the stationary flight condition [m/sec]
+alpha0 = 0.08755356 #change          # angle of attack in the stationary flight condition [rad]
+th0    = 0.07413704 #change          # pitch angle in the stationary flight condition [rad]
 
 # Aircraft mass
-m      = 60500/9.80665 #change          # mass [kg]
+m      = cg(4100,0)[0] - 188.64482805 - 194.17395247  #change          # mass [kg]
 
 # aerodynamic properties
 e      = 0.8772       # Oswald factor [ ]

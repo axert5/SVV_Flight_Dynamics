@@ -4,7 +4,7 @@ Created on Wed Mar  7 11:11:44 2018
 
 @author: xx
 """
-from Cit_par_book import *
+from Cit_par import *
 from Cit_par_changing import changing_constants
 from WeightBalance import cg
 from numpy import*
@@ -16,7 +16,7 @@ warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
 
 #symmetric case
-
+'''
 #begin short period
 hp0     =7000*0.3048
 V0      =188.92*0.51444
@@ -34,7 +34,7 @@ mub = changing_constants[1]
 CL  = changing_constants[2]
 CD  = changing_constants[3]
 CX0 = changing_constants[4]
-CZ0 = changing_constants[5]
+CZ0 = changing_constants[5]'''
 #------original state space system---------------------------------------
 
 #dimension having
@@ -79,7 +79,7 @@ c_sym_dimless=matrix([[V0,0,0,0,0],[0,1,0,0,0],[0,0,1,0,0],[0,0,0,V0/c,0],[0,0,0
 d_sym_dimless=zeros((6,1))
 
 sys_extended=ss(a_sym_dimless,b_sym_dimless,c_sym_dimless,d_sym_dimless)
-
+print (linalg.eig(A_asym_dimless)[0])
 
 #---state space computation------------------------------------------------------
 #-------------------------------------------------------------------------------
@@ -89,11 +89,12 @@ t=arange(0,15,0.01)
 
 ude=[-0.012]*len(t) #input vector for elevator deflection
 
+x0=[0,0.01,0,0]
 #--which model is selected----------------------------------------------------
 
 #sys=sys_symmetric           #standard dimension having
-#sys=sys_sym_hybrid          #dimless computation, dim having outputs
-sys=sys_sym_dimless         #dimless outputs
+sys=sys_sym_hybrid          #dimless computation, dim having outputs
+#sys=sys_sym_dimless         #dimless outputs
 #sys=sys_extended            #dimension having, extended for approx. ROC and altitude       
 
 
@@ -101,9 +102,10 @@ sys=sys_sym_dimless         #dimless outputs
 
 
 
-y=lsim(sys,ude,t)   #Using input vector
+#y=lsim(sys,ude,t)   #Using input vector
 #y=impulse(sys,t)                #Impulse input
 #y=step(sys,t)                   #Step input
+y=initial(sys,t,x0)
 
 # y[0][:,0]: u
 # y[0][:,1]: alpha
@@ -116,7 +118,7 @@ y=lsim(sys,ude,t)   #Using input vector
 #-----Matrix analysis--------------------------------------------------------
 
 #--------dimensionless system--------------------------------------------------
-print()
+"""print()
 
 print('Symmetric Flight:')
 
@@ -151,6 +153,11 @@ print ('Nat. Frequency of Short Period:',natfreq[0])
 print ('Nat. Frequency of Phugoid:',natfreq[2])
 
 print()
+
+print ('Frequency of Short Period:',natfreq[0] / sqrt(1 - damping[0]**2))
+print ('Frequency of Phugoid:',natfreq[2]/ sqrt(1 - damping[2]**2))
+
+print()"""
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
 
@@ -159,8 +166,8 @@ plt.title('Input: Elevator Deflection Angle deltael (rad)')
 plt.plot(t,array(ude),color='m',label='i')
 
 plt.subplot(512)
-plt.title('Velocity u (m/s)')
-plt.plot(t,y[0][:,0],color='c',label='u')
+plt.title('Velocity V (m/s)')
+plt.plot(t,y[0][:,0]+V0,color='c',label='u')
 
 plt.subplot(513)
 plt.title('Angle of Attack alpha (rad)')
