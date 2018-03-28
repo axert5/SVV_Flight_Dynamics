@@ -14,15 +14,9 @@ import warnings
 import matplotlib.cbook
 warnings.filterwarnings("ignore",category=matplotlib.cbook.mplDeprecation)
 
-<<<<<<< HEAD
-"""hp0     =7000*0.3048
-=======
-
-#symmetric case
-'''
+"""
 #begin short period
 hp0     =7000*0.3048
->>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
 V0      =188.92*0.51444
 alpha0  =5*pi/180
 th0     =0*pi/180
@@ -38,13 +32,10 @@ mub = changing_constants[1]
 CL  = changing_constants[2]
 CD  = changing_constants[3]
 CX0 = changing_constants[4]
-<<<<<<< HEAD
 CZ0 = changing_constants[5]"""
 #symmetric case
 
-=======
-CZ0 = changing_constants[5]'''
->>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
+
 #------original state space system---------------------------------------
 
 #dimension having
@@ -102,13 +93,9 @@ ude=[0]*len(t) #input vector for elevator deflection
 x0=[0,0.01,0,0]
 #--which model is selected----------------------------------------------------
 
-<<<<<<< HEAD
-sys=sys_symmetric           #standard dimension having
-#sys=sys_sym_hybrid          #dimless computation, dim having outputs
-=======
+
 #sys=sys_symmetric           #standard dimension having
 sys=sys_sym_hybrid          #dimless computation, dim having outputs
->>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
 #sys=sys_sym_dimless         #dimless outputs
 #sys=sys_extended            #dimension having, extended for approx. ROC and altitude       
 
@@ -117,15 +104,12 @@ sys=sys_sym_hybrid          #dimless computation, dim having outputs
 
 x0=matrix([[0],[0.1],[0],[0]])
 
-<<<<<<< HEAD
-y=initial(sys,t,x0)   #Using input vector
-=======
 
-#y=lsim(sys,ude,t)   #Using input vector
->>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
+y=lsim(sys,ude,t)   #Using input vector
+
 #y=impulse(sys,t)                #Impulse input
 #y=step(sys,t)                   #Step input
-y=initial(sys,t,x0)
+#y=initial(sys,t,x0)
 
 # y[0][:,0]: u
 # y[0][:,1]: alpha
@@ -188,11 +172,8 @@ plt.figure(1)
 #plt.title('Input in Elevator (rad)')
 #plt.plot(t,array(ude),color='m',label='i')
 
-<<<<<<< HEAD
+
 plt.subplot(321)
-=======
-plt.subplot(512)
->>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
 plt.title('Velocity V (m/s)')
 plt.plot(t,y[0][:,0]+V0,color='c',label='u')
 

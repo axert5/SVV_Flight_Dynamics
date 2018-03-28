@@ -4,17 +4,12 @@ from numpy import*
 from WeightBalance import cg
 # Stationary flight condition
 
-<<<<<<< HEAD
+
 hp0    = 7000 * 0.3048 #change   	      # pressure altitude in the stationary flight condition [m]
 V0     = 188.92* 0.5144444 #change               # true airspeed in the stationary flight condition [m/sec]
 alpha0 = 0*pi/180 #change          # angle of attack in the stationary flight condition [rad]
 th0    = 0*pi/180 #change          # pitch angle in the stationary flight condition [rad]
-=======
-hp0    = 2045 #change   	      # pressure altitude in the stationary flight condition [m]
-V0     = 91.999 #change               # true airspeed in the stationary flight condition [m/sec]
-alpha0 = 0.08755356 #change          # angle of attack in the stationary flight condition [rad]
-th0    = 0.07413704 #change          # pitch angle in the stationary flight condition [rad]
->>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
+
 
 # Aircraft mass
 m      = cg(4100,0)[0] - 188.64482805 - 194.17395247  #change          # mass [kg]
