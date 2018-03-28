@@ -125,7 +125,7 @@ for i in range(len(M)):
     Tc1 = total_temp_stationary[i]/(1+((gamma-1)/2)*M[i]**2)
     Temp_c.append(Tc1)
 
-#Angle of attack
+#Speed of sound
 aoa = []
 for i in range(len(M)):
     aoa1 = sqrt(gamma*R*Temp_c[i])
@@ -172,14 +172,9 @@ for i in range(len(C_Lsquared)):
     corrected_C_D_formula = C_D_0 + C_Lsquared[i]/(pi*e*A)                 #C_D formula
     corrected_C_D.append(corrected_C_D_formula)                                                    #C_D values for stationary flight data
 
-
-
 ### Alpha values 
 
 alpha_rad = array([0.02792526803, 0.04188790205, 0.06108652382, 0.09424777961, 0.1291543646, 0.193731547])
-
-
-
 
 plt.figure(1)
 
@@ -206,7 +201,7 @@ plt.title('C_L^2 vs C_D')
 plt.plot(C_Lsquared,corrected_C_D, 'y')
 plt.xlabel('C_L^2')
 plt.ylabel('C_D')
-<<<<<<< HEAD
+#<<<<<<< HEAD
 plt.show()
 '''
   
@@ -224,7 +219,7 @@ plt.show()
 
 
 >>>>>>> 3402d9fb1c7a939ddfd89a411fc55cc2616abfd5
-
+'''
 
 
 

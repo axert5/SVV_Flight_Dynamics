@@ -3,11 +3,32 @@ Program that gives values for each eigenmotion
 
 """
 
-from Cit_par import *
+from Cit_par_book import *
+from Cit_par_original import changing_constants
 from EigFuncVer import *
 import numpy as np
 from numpy.linalg import eig
 
+'''
+#symmetric case
+
+hp0     =7000*0.3048
+V0      =188.92*0.51444
+alpha0  =5*pi/180
+th0     =0*pi/180
+fuel_used_LEngine=504.276941303232
+fuel_used_REngine=520.152402665631
+m       =cg(4100-(fuel_used_LEngine+fuel_used_REngine),0)[0]
+
+
+changing_constant=changing_constants(hp0,V0,alpha0,th0,m)
+
+muc = changing_constant[0]
+mub = changing_constant[1]
+CL  = changing_constant[2]
+CD  = changing_constant[3]
+CX0 = changing_constant[4]
+CZ0 = changing_constant[5]'''
 
 """
 print("Dimension-less for short period are:" , short_period(muc , KY2 , CZa , Cmadot, Cmq, Cma))

@@ -7,9 +7,13 @@ Created on Wed Mar  7 11:58:57 2018
 """
 #meh
 from numpy import *
+<<<<<<< HEAD
 from Cit_par import *
 #from Cit_par_changing import changing_constants
 from WeightBalance import cg
+=======
+from Cit_par_book import *
+>>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
 from control.matlab import *
 import matplotlib.pyplot as plt
 import warnings
@@ -169,6 +173,14 @@ wn=w0*sqrt(1-damp(sys,doprint=False)[1]**2)
 print(wn)
 
 
+<<<<<<< HEAD
+=======
+print()
+
+print ('Freq:', natfreq / sqrt(1 - damping**2))
+damp(sys)
+
+>>>>>>> 8dc2d4245d66a1699f6ec45584a3e5a6a760d99d
 
 #----------plotting-----------------------------------------------------------
 plt.figure(1)
